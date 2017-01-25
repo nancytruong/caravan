@@ -1,0 +1,3 @@
+#ignore these file types
+.DS_Store
+.DS_Store?
