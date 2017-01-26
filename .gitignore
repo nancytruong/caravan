@@ -3,4 +3,5 @@
 .DS_Store?
 
 #ignore these folders
-xcodeproj/xcuserdata
+/caravan-ios.xcodeproj/xcuserdata
+/caravan-ios.xcworkspace/xcuserdata
