@@ -11,11 +11,13 @@ target 'caravan-ios' do
   target 'caravan-iosTests' do
     inherit! :search_paths
     # Pods for testing
+    pod 'Firebase/Core'
   end
 
   target 'caravan-iosUITests' do
     inherit! :search_paths
     # Pods for testing
+    pod 'Firebase/Core'
   end
 
 end
