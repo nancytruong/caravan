@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0EAD1D381E461B2EF21C167C /* Pods_caravan_iosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01EF70F2CFFD6AAE9BFAF54A /* Pods_caravan_iosTests.framework */; };
+		7B1110A10D1B6864D70F8021 /* Pods_caravan_iosUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4F3605FC2CEDC4564A409B5 /* Pods_caravan_iosUITests.framework */; };
+		B93F00E11E396A6600ACFB48 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B93F00E01E396A6600ACFB48 /* GoogleService-Info.plist */; };
+		B93F00E21E396A6600ACFB48 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B93F00E01E396A6600ACFB48 /* GoogleService-Info.plist */; };
+		B93F00E31E396A6600ACFB48 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B93F00E01E396A6600ACFB48 /* GoogleService-Info.plist */; };
 		B9B91EEC1E39664800FBFEAD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B91EEB1E39664800FBFEAD /* AppDelegate.swift */; };
 		B9B91EEE1E39664800FBFEAD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B91EED1E39664800FBFEAD /* ViewController.swift */; };
 		B9B91EF11E39664800FBFEAD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9B91EEF1E39664800FBFEAD /* Main.storyboard */; };
@@ -14,6 +19,7 @@
 		B9B91EF61E39664800FBFEAD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9B91EF41E39664800FBFEAD /* LaunchScreen.storyboard */; };
 		B9B91F011E39664800FBFEAD /* caravan_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B91F001E39664800FBFEAD /* caravan_iosTests.swift */; };
 		B9B91F0C1E39664800FBFEAD /* caravan_iosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B91F0B1E39664800FBFEAD /* caravan_iosUITests.swift */; };
+		E041C582877055996DE58AE2 /* Pods_caravan_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BADD37FE9B47130674ECC720 /* Pods_caravan_ios.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +40,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		01EF70F2CFFD6AAE9BFAF54A /* Pods_caravan_iosTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_caravan_iosTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3055808A949C458832659EEF /* Pods-caravan-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-caravan-ios.debug.xcconfig"; path = "Pods/Target Support Files/Pods-caravan-ios/Pods-caravan-ios.debug.xcconfig"; sourceTree = "<group>"; };
+		3ABA6D556AFCFB28B69478D5 /* Pods-caravan-iosTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-caravan-iosTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-caravan-iosTests/Pods-caravan-iosTests.debug.xcconfig"; sourceTree = "<group>"; };
+		7ED97C7732B3A892FFB05C70 /* Pods-caravan-iosUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-caravan-iosUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-caravan-iosUITests/Pods-caravan-iosUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		9E9DA8F00FD3B90E0C7A0D27 /* Pods-caravan-iosUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-caravan-iosUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-caravan-iosUITests/Pods-caravan-iosUITests.release.xcconfig"; sourceTree = "<group>"; };
+		B4F3605FC2CEDC4564A409B5 /* Pods_caravan_iosUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_caravan_iosUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B93F00E01E396A6600ACFB48 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B9B91EE81E39664800FBFEAD /* caravan-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "caravan-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9B91EEB1E39664800FBFEAD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B9B91EED1E39664800FBFEAD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -47,6 +60,9 @@
 		B9B91F071E39664800FBFEAD /* caravan-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "caravan-iosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9B91F0B1E39664800FBFEAD /* caravan_iosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = caravan_iosUITests.swift; sourceTree = "<group>"; };
 		B9B91F0D1E39664800FBFEAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BADD37FE9B47130674ECC720 /* Pods_caravan_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_caravan_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2FF9F453FFD5B69110977CA /* Pods-caravan-iosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-caravan-iosTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-caravan-iosTests/Pods-caravan-iosTests.release.xcconfig"; sourceTree = "<group>"; };
+		F3221F18AF26FCBBBDFB9C14 /* Pods-caravan-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-caravan-ios.release.xcconfig"; path = "Pods/Target Support Files/Pods-caravan-ios/Pods-caravan-ios.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E041C582877055996DE58AE2 /* Pods_caravan_ios.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,6 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0EAD1D381E461B2EF21C167C /* Pods_caravan_iosTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,12 +86,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B1110A10D1B6864D70F8021 /* Pods_caravan_iosUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4DB57745109B5EEEA04680D0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3055808A949C458832659EEF /* Pods-caravan-ios.debug.xcconfig */,
+				F3221F18AF26FCBBBDFB9C14 /* Pods-caravan-ios.release.xcconfig */,
+				3ABA6D556AFCFB28B69478D5 /* Pods-caravan-iosTests.debug.xcconfig */,
+				C2FF9F453FFD5B69110977CA /* Pods-caravan-iosTests.release.xcconfig */,
+				7ED97C7732B3A892FFB05C70 /* Pods-caravan-iosUITests.debug.xcconfig */,
+				9E9DA8F00FD3B90E0C7A0D27 /* Pods-caravan-iosUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		B9B91EDF1E39664800FBFEAD = {
 			isa = PBXGroup;
 			children = (
@@ -81,6 +113,8 @@
 				B9B91EFF1E39664800FBFEAD /* caravan-iosTests */,
 				B9B91F0A1E39664800FBFEAD /* caravan-iosUITests */,
 				B9B91EE91E39664800FBFEAD /* Products */,
+				4DB57745109B5EEEA04680D0 /* Pods */,
+				D07702B0325EA22D40BAF914 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -102,6 +136,7 @@
 				B9B91EEF1E39664800FBFEAD /* Main.storyboard */,
 				B9B91EF21E39664800FBFEAD /* Assets.xcassets */,
 				B9B91EF41E39664800FBFEAD /* LaunchScreen.storyboard */,
+				B93F00E01E396A6600ACFB48 /* GoogleService-Info.plist */,
 				B9B91EF71E39664800FBFEAD /* Info.plist */,
 			);
 			path = "caravan-ios";
@@ -125,6 +160,16 @@
 			path = "caravan-iosUITests";
 			sourceTree = "<group>";
 		};
+		D07702B0325EA22D40BAF914 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BADD37FE9B47130674ECC720 /* Pods_caravan_ios.framework */,
+				01EF70F2CFFD6AAE9BFAF54A /* Pods_caravan_iosTests.framework */,
+				B4F3605FC2CEDC4564A409B5 /* Pods_caravan_iosUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -132,9 +177,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B9B91F101E39664800FBFEAD /* Build configuration list for PBXNativeTarget "caravan-ios" */;
 			buildPhases = (
+				F702C56E20E5CB5DDC3EE4C8 /* [CP] Check Pods Manifest.lock */,
 				B9B91EE41E39664800FBFEAD /* Sources */,
 				B9B91EE51E39664800FBFEAD /* Frameworks */,
 				B9B91EE61E39664800FBFEAD /* Resources */,
+				146AFFE03F094193A4D6F6EE /* [CP] Embed Pods Frameworks */,
+				0F954037ADA0E8C977A78FE3 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -149,9 +197,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B9B91F131E39664800FBFEAD /* Build configuration list for PBXNativeTarget "caravan-iosTests" */;
 			buildPhases = (
+				A983BFD4A43CF0514738F157 /* [CP] Check Pods Manifest.lock */,
 				B9B91EF81E39664800FBFEAD /* Sources */,
 				B9B91EF91E39664800FBFEAD /* Frameworks */,
 				B9B91EFA1E39664800FBFEAD /* Resources */,
+				1033E4BB557EB248AA9AA085 /* [CP] Embed Pods Frameworks */,
+				626CA2D14F8B7E051E5FBBE6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -167,9 +218,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B9B91F161E39664800FBFEAD /* Build configuration list for PBXNativeTarget "caravan-iosUITests" */;
 			buildPhases = (
+				A7DFBFC471FA3684E8695908 /* [CP] Check Pods Manifest.lock */,
 				B9B91F031E39664800FBFEAD /* Sources */,
 				B9B91F041E39664800FBFEAD /* Frameworks */,
 				B9B91F051E39664800FBFEAD /* Resources */,
+				B42EE7243F7CED6BFA1B1C7F /* [CP] Embed Pods Frameworks */,
+				3DBFCB1F359AF19FC4A510B6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -236,6 +290,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B9B91EF61E39664800FBFEAD /* LaunchScreen.storyboard in Resources */,
+				B93F00E11E396A6600ACFB48 /* GoogleService-Info.plist in Resources */,
 				B9B91EF31E39664800FBFEAD /* Assets.xcassets in Resources */,
 				B9B91EF11E39664800FBFEAD /* Main.storyboard in Resources */,
 			);
@@ -245,6 +300,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B93F00E21E396A6600ACFB48 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,10 +308,149 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B93F00E31E396A6600ACFB48 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0F954037ADA0E8C977A78FE3 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-caravan-ios/Pods-caravan-ios-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1033E4BB557EB248AA9AA085 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-caravan-iosTests/Pods-caravan-iosTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		146AFFE03F094193A4D6F6EE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-caravan-ios/Pods-caravan-ios-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3DBFCB1F359AF19FC4A510B6 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-caravan-iosUITests/Pods-caravan-iosUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		626CA2D14F8B7E051E5FBBE6 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-caravan-iosTests/Pods-caravan-iosTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A7DFBFC471FA3684E8695908 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		A983BFD4A43CF0514738F157 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		B42EE7243F7CED6BFA1B1C7F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-caravan-iosUITests/Pods-caravan-iosUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F702C56E20E5CB5DDC3EE4C8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		B9B91EE41E39664800FBFEAD /* Sources */ = {
@@ -411,6 +606,7 @@
 		};
 		B9B91F111E39664800FBFEAD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3055808A949C458832659EEF /* Pods-caravan-ios.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = CL96N4F53P;
@@ -424,6 +620,7 @@
 		};
 		B9B91F121E39664800FBFEAD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F3221F18AF26FCBBBDFB9C14 /* Pods-caravan-ios.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = CL96N4F53P;
@@ -437,6 +634,7 @@
 		};
 		B9B91F141E39664800FBFEAD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3ABA6D556AFCFB28B69478D5 /* Pods-caravan-iosTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -452,6 +650,7 @@
 		};
 		B9B91F151E39664800FBFEAD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C2FF9F453FFD5B69110977CA /* Pods-caravan-iosTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -467,6 +666,7 @@
 		};
 		B9B91F171E39664800FBFEAD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7ED97C7732B3A892FFB05C70 /* Pods-caravan-iosUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = CL96N4F53P;
@@ -481,6 +681,7 @@
 		};
 		B9B91F181E39664800FBFEAD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9E9DA8F00FD3B90E0C7A0D27 /* Pods-caravan-iosUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = CL96N4F53P;
@@ -512,6 +713,7 @@
 				B9B91F121E39664800FBFEAD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B9B91F131E39664800FBFEAD /* Build configuration list for PBXNativeTarget "caravan-iosTests" */ = {
 			isa = XCConfigurationList;
@@ -520,6 +722,7 @@
 				B9B91F151E39664800FBFEAD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B9B91F161E39664800FBFEAD /* Build configuration list for PBXNativeTarget "caravan-iosUITests" */ = {
 			isa = XCConfigurationList;
@@ -528,6 +731,7 @@
 				B9B91F181E39664800FBFEAD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
