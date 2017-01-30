@@ -19,9 +19,11 @@ PODS:
   - GoogleToolboxForMac/Defines (2.1.1)
   - GoogleToolboxForMac/NSData+zlib (2.1.1):
     - GoogleToolboxForMac/Defines (= 2.1.1)
+  - Mapbox-iOS-SDK (3.4.1)
 
 DEPENDENCIES:
   - Firebase/Core
+  - Mapbox-iOS-SDK (~> 3.4.1)
 
 SPEC CHECKSUMS:
   Firebase: 53b2343db1ebfa3eb16bdb4318b8bb65360b2220
@@ -31,7 +33,8 @@ SPEC CHECKSUMS:
   GoogleInterchangeUtilities: d5bc4d88d5b661ab72f9d70c58d02ca8c27ad1f7
   GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
+  Mapbox-iOS-SDK: 9c0d23e9a3784e6c9e45af4339898e4598b5b09b
 
-PODFILE CHECKSUM: 67b2733eb5430c8a5eda695f02d69c06cb6bf877
+PODFILE CHECKSUM: e8425bdb1160da143b2ae9eb4df16f2a7ea95104
 
 COCOAPODS: 1.1.1
