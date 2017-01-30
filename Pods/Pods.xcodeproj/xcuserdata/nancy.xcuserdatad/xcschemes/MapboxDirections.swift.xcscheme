@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "BA56D471907EE742E952DB3DBE1D98C3"
-               BuildableName = "Pods_caravan_ios.framework"
-               BlueprintName = "Pods-caravan-ios"
+               BlueprintIdentifier = "C958C92B3023C9D5259FC112C79C4ED0"
+               BuildableName = "MapboxDirections.framework"
+               BlueprintName = "MapboxDirections.swift"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "BA56D471907EE742E952DB3DBE1D98C3"
-            BuildableName = "Pods_caravan_ios.framework"
-            BlueprintName = "Pods-caravan-ios"
+            BlueprintIdentifier = "C958C92B3023C9D5259FC112C79C4ED0"
+            BuildableName = "MapboxDirections.framework"
+            BlueprintName = "MapboxDirections.swift"
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

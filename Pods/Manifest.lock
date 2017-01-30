@@ -20,10 +20,24 @@ PODS:
   - GoogleToolboxForMac/NSData+zlib (2.1.1):
     - GoogleToolboxForMac/Defines (= 2.1.1)
   - Mapbox-iOS-SDK (3.4.1)
+  - MapboxDirections.swift (0.6.0):
+    - Polyline (~> 3.2)
+  - Polyline (3.3.1)
 
 DEPENDENCIES:
   - Firebase/Core
   - Mapbox-iOS-SDK (~> 3.4.1)
+  - MapboxDirections.swift (from `https://github.com/mapbox/MapboxDirections.swift.git`, tag `v0.6.0`)
+
+EXTERNAL SOURCES:
+  MapboxDirections.swift:
+    :git: https://github.com/mapbox/MapboxDirections.swift.git
+    :tag: v0.6.0
+
+CHECKOUT OPTIONS:
+  MapboxDirections.swift:
+    :git: https://github.com/mapbox/MapboxDirections.swift.git
+    :tag: v0.6.0
 
 SPEC CHECKSUMS:
   Firebase: 53b2343db1ebfa3eb16bdb4318b8bb65360b2220
@@ -34,7 +48,9 @@ SPEC CHECKSUMS:
   GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   Mapbox-iOS-SDK: 9c0d23e9a3784e6c9e45af4339898e4598b5b09b
+  MapboxDirections.swift: 144cefb4386d419f916ce27928834c28bbaafb4f
+  Polyline: 5639e50818bc04957597667925d206318025db83
 
-PODFILE CHECKSUM: e8425bdb1160da143b2ae9eb4df16f2a7ea95104
+PODFILE CHECKSUM: f624e90677a2d2f38ef6d5118c1c64c072d410a0
 
 COCOAPODS: 1.1.1
