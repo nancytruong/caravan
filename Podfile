@@ -1,4 +1,4 @@
-# Uncomment the next line to define a global platform for your project
+#Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
 
 target 'caravan-ios' do
@@ -7,6 +7,8 @@ target 'caravan-ios' do
 
   # Pods for caravan-ios
   pod 'Firebase/Core'
+  pod 'Mapbox-iOS-SDK', '~> 3.4.1'
+  pod 'MapboxDirections.swift', :git => 'https://github.com/mapbox/MapboxDirections.swift.git', :tag => 'v0.6.0'
 
   target 'caravan-iosTests' do
     inherit! :search_paths
