@@ -608,6 +608,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3055808A949C458832659EEF /* Pods-caravan-ios.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = CL96N4F53P;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -626,6 +627,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F3221F18AF26FCBBBDFB9C14 /* Pods-caravan-ios.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = CL96N4F53P;
 				FRAMEWORK_SEARCH_PATHS = (
