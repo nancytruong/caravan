@@ -21,13 +21,19 @@ class ViewController: UIViewController, MGLMapViewDelegate {
         let directions = Directions.shared
         
         let waypoints = [
-            Waypoint(coordinate: CLLocationCoordinate2D(latitude: 38.9131752, longitude: -77.0324047), name: "Mapbox"),
-            Waypoint(coordinate: CLLocationCoordinate2D(latitude: 38.8977, longitude: -77.0365), name: "White House"),
+            Waypoint(
+                coordinate: CLLocationCoordinate2D(latitude: 38.9131752, longitude: -77.0324047),
+                name: "Mapbox"
+            ),
+            Waypoint(
+                coordinate: CLLocationCoordinate2D(latitude: 38.8977, longitude: -77.0365),
+                name: "White House"
+            ),
             ]
         let options = RouteOptions(waypoints: waypoints, profileIdentifier: MBDirectionsProfileIdentifierAutomobile)
         options.includesSteps = true
         
-        let task = directions.calculate(options) { (waypoints, routes, error) in
+        _ = directions.calculate(options) { (waypoints, routes, error) in
             guard error == nil else {
                 print("Error calculating directions: \(error!)")
                 return
@@ -51,6 +57,8 @@ class ViewController: UIViewController, MGLMapViewDelegate {
                     print("— \(formattedDistance) —")
                 }
                 
+                
+                
                 if route.coordinateCount > 0 {
                     // Convert the route’s coordinates into a polyline.
                     var routeCoordinates = route.coordinates!
@@ -60,6 +68,8 @@ class ViewController: UIViewController, MGLMapViewDelegate {
                     self.mapView.addAnnotation(routeLine)
                     self.mapView.setVisibleCoordinates(&routeCoordinates, count: route.coordinateCount, edgePadding: .zero, animated: true)
                 }
+                
+                
             }
         }
         
