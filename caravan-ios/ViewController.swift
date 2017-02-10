@@ -9,17 +9,46 @@
 import UIKit
 import Mapbox
 import MapboxDirections
+import Firebase
 
-class ViewController: UIViewController, MGLMapViewDelegate {
+class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDelegate {
     
     @IBOutlet var mapView: MGLMapView!
+    
+    var ref: FIRDatabaseReference!
+    let locationManager = CLLocationManager()
+    var locValue: CLLocationCoordinate2D!
 
+    @IBAction func sendLocationPressed(_ sender: Any) {
+        //let username = "Spud"
+        //ref.child("users/1/username").setValue(username)
+        print("sending long: \(locValue.longitude) lat: \(locValue.latitude)")
+        ref.child("users/1/coord/longitude").setValue(locValue.longitude)
+        ref.child("users/1/coord/latitude").setValue(locValue.latitude)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        let directions = Directions.shared
+        // FIREBASE DATABASE STUFF
+        ref = FIRDatabase.database().reference()
         
+        // Ask for Authorisation from the User.
+        self.locationManager.requestAlwaysAuthorization()
+        
+        // For use in foreground
+        self.locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
+        
+        // MAPBOX NAV STUFF
+        let directions = Directions.shared
+        /*
         let waypoints = [
             Waypoint(
                 coordinate: CLLocationCoordinate2D(latitude: 38.9131752, longitude: -77.0324047),
@@ -72,7 +101,7 @@ class ViewController: UIViewController, MGLMapViewDelegate {
                 
             }
         }
-        
+        */
         
         mapView.delegate = self
         
@@ -81,6 +110,11 @@ class ViewController: UIViewController, MGLMapViewDelegate {
         point.title = "California Polytechnic San Luis Obispo"
         point.subtitle = "1 Grand Ave San Luis Obispo CA, U.S.A"
         mapView.addAnnotation(point)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        locValue = (manager.location?.coordinate)!
+        print("locations = \(locValue.latitude) \(locValue.longitude)")
     }
     
     func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
