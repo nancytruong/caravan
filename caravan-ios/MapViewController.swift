@@ -17,42 +17,41 @@ enum menuState {
     case Expanded
 }
 
-class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDelegate {
+class MapViewController: UIViewController {
     
+    // mapbox
     @IBOutlet var mapView: MGLMapView!
-    
-    var ref: FIRDatabaseReference!
-    let locationManager = CLLocationManager()
-    var locValue: CLLocationCoordinate2D!
     let geocoder = Geocoder.sharedGeocoder
     let directions = Directions.shared
+    
+    // firebase
+    var ref: FIRDatabaseReference!
+    
+    let locationManager = CLLocationManager()
+    var locValue: CLLocationCoordinate2D!
     
     var menuView: UITableView?
     var isMenuOpen: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         
         // set up menu
         menuView = UITableView.init(frame: CGRect.init(x: -400, y: 0, width: 400, height: self.view.frame.height))
-        
         self.view.addSubview(menuView!)
         
         // create & add the screen edge gesture recognizer to open the menu
         let edgePanGR = UIScreenEdgePanGestureRecognizer(target: self,
                                                          action: #selector(self.handleEdgePan(recognizer:)))
         edgePanGR.edges = .left
-        edgePanGR.delegate = self
         self.view.addGestureRecognizer(edgePanGR)
         
         //create & add the tap gesutre recognizer to close the menu
         let tapGR = UITapGestureRecognizer(target: self,
                                            action: #selector(self.handleTap(recognizer:)))
-        tapGR.delegate = self
         self.view.addGestureRecognizer(tapGR)
     
-        // FIREBASE DATABASE STUFF
+        // initialize reference to DB
         ref = FIRDatabase.database().reference()
         
         // Ask for Authorisation from the User.
@@ -68,23 +67,15 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
         }
         
         mapView.delegate = self
-        
-        let point = MGLPointAnnotation()
-        point.coordinate = CLLocationCoordinate2D(latitude: 35.301355, longitude: -120.660459)
-        point.title = "California Polytechnic San Luis Obispo"
-        point.subtitle = "1 Grand Ave San Luis Obispo CA, U.S.A"
-        mapView.addAnnotation(point)
-        
     }
 
-    @IBAction func sendLocationPressed(_ sender: Any) {
-        //let username = "Spud"
-        //ref.child("users/1/username").setValue(username)
-        print("sending long: \(locValue.longitude) lat: \(locValue.latitude)")
-        ref.child("users/1/coord/longitude").setValue(locValue.longitude)
-        ref.child("users/1/coord/latitude").setValue(locValue.latitude)
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
-    
+}
+
+extension MapViewController: MGLMapViewDelegate {
     // get a route object and also draw the route on the map
     func mapbox() {
         let waypoints = [
@@ -139,25 +130,37 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
                 
             }
         }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        locValue = (manager.location?.coordinate)!
-        //print("locations = \(locValue.latitude) \(locValue.longitude)")
+        
+        let point = MGLPointAnnotation()
+        point.coordinate = CLLocationCoordinate2D(latitude: 35.301355, longitude: -120.660459)
+        point.title = "California Polytechnic San Luis Obispo"
+        point.subtitle = "1 Grand Ave San Luis Obispo CA, U.S.A"
+        mapView.addAnnotation(point)
     }
     
     func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
         // Always try to show a callout when an annotation is tapped.
         return true
     }
+}
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+extension MapViewController: CLLocationManagerDelegate {
+    
+    @IBAction func sendLocationPressed(_ sender: Any) {
+        //let username = "Spud"
+        //ref.child("users/1/username").setValue(username)
+        print("sending long: \(locValue.longitude) lat: \(locValue.latitude)")
+        ref.child("users/1/coord/longitude").setValue(locValue.longitude)
+        ref.child("users/1/coord/latitude").setValue(locValue.latitude)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        locValue = (manager.location?.coordinate)!
+        //print("locations = \(locValue.latitude) \(locValue.longitude)")
     }
 }
 
-extension ViewController: UIGestureRecognizerDelegate {
+extension MapViewController: UIGestureRecognizerDelegate {
     // GESTURE RECOGNIZERS
     func handleEdgePan(recognizer: UIScreenEdgePanGestureRecognizer) {
         // open animation of menu
