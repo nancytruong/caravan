@@ -9,7 +9,7 @@
 import UIKit
 import Mapbox
 import MapboxDirections
-import Firebase
+import FirebaseDatabase
 import MapboxGeocoder
 
 enum menuState {
@@ -17,7 +17,7 @@ enum menuState {
     case Expanded
 }
 
-class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDelegate, UIGestureRecognizerDelegate {
+class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDelegate {
     
     @IBOutlet var mapView: MGLMapView!
     
@@ -28,7 +28,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
     let directions = Directions.shared
     
     var menuView: UITableView?
-    var menuState: menuState = .Collapsed
+    var isMenuOpen: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,8 +36,6 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
         
         // set up menu
         menuView = UITableView.init(frame: CGRect.init(x: -400, y: 0, width: 400, height: self.view.frame.height))
-        
-        //menuView!.backgroundColor = UIColor.black
         
         self.view.addSubview(menuView!)
         
@@ -76,58 +74,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
         point.title = "California Polytechnic San Luis Obispo"
         point.subtitle = "1 Grand Ave San Luis Obispo CA, U.S.A"
         mapView.addAnnotation(point)
-    }
-    
-
-    // GESTURE RECOGNIZERS
-    func handleEdgePan(recognizer: UIScreenEdgePanGestureRecognizer) {
-        // open animation of menu
-        self.openMenu()
-    
-        // TODO: should also disable all buttons on the groups view
-    }
-
-    func handleTap(recognizer: UITapGestureRecognizer) {
-        // check if menu is expanded & if tap is in correct area
-        let point = recognizer.location(in: self.view)
-        if (menuState == .Expanded && point.x >= 300){
-            // close the menu
-            self.closeMenu()
-        }
-    }
-
-    // ANIMATIONS
-    func closeMenu() {
-        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut,
-                       animations: {
-                        self.menuView!.frame.origin.x = -400 // <= replace this magic number
-                       },
-                       completion: { finished in
-                        self.menuState = .Collapsed
-                       }
-        )
-    }
-
-    func openMenu() {
-        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut,
-                       animations: {
-                        self.menuView!.frame.origin.x = -100 // <= replace this magic number
-                       },
-                       completion: { finished in
-                        self.menuState = .Expanded
-                       }
-        )
-    }
-
-    // BUTTON ACTION
-    @IBAction func menuTapped(_ sender: UIButton) {
-        if (menuState == .Collapsed) {
-            openMenu()
-            menuState = .Expanded
-        } else {
-            closeMenu()
-            menuState = .Collapsed
-        }
+        
     }
 
     @IBAction func sendLocationPressed(_ sender: Any) {
@@ -138,6 +85,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
         ref.child("users/1/coord/latitude").setValue(locValue.latitude)
     }
     
+    // get a route object and also draw the route on the map
     func mapbox() {
         let waypoints = [
             Waypoint(
@@ -207,7 +155,51 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+}
 
-
+extension ViewController: UIGestureRecognizerDelegate {
+    // GESTURE RECOGNIZERS
+    func handleEdgePan(recognizer: UIScreenEdgePanGestureRecognizer) {
+        // open animation of menu
+        self.openMenu()
+    }
+    
+    func handleTap(recognizer: UITapGestureRecognizer) {
+        // check if menu is expanded & if tap is in correct area
+        let point = recognizer.location(in: self.view)
+        if (isMenuOpen == true && point.x >= 300){
+            // close the menu
+            self.closeMenu()
+        }
+    }
+    
+    // ANIMATIONS
+    func closeMenu() {
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut,
+                       animations: {
+                        self.menuView!.frame.origin.x = -400 // <= replace this magic number
+        },
+                       completion: { finished in
+                        self.isMenuOpen = false
+        }
+        )
+    }
+    
+    func openMenu() {
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut,
+                       animations: {
+                        self.menuView!.frame.origin.x = -100 // <= replace this magic number
+        },
+                       completion: { finished in
+                        self.isMenuOpen = true
+        }
+        )
+    }
+    
+    // BUTTON ACTION
+    @IBAction func menuTapped(_ sender: UIButton) {
+        openMenu()
+        isMenuOpen = true
+    }
 }
 
