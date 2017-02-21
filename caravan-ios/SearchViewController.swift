@@ -43,11 +43,13 @@ class SearchViewController: UIViewController {
         //options.focalLocation = locationManager.location
         options.allowedScopes = [.address, .pointOfInterest]
         
-        geocoder.geocode(options,
+        let _ = geocoder.geocode(options,
                          completionHandler: { placemarks, attribution, error in
-                            self.searchResults = (placemarks)!
-                            let placemark = placemarks?[0]
-                            print("Yay we go the stuffs! this is the name! \(placemark?.qualifiedName)")
+                            if let unwrapped = placemarks {
+                                self.searchResults = unwrapped
+                            } else {
+                                self.searchResults = []
+                            }
                             self.tableView.reloadData()
         })
     }
@@ -83,16 +85,12 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         // Configure the cell...
-        // check if there are results in results
         if (indexPath.row < searchResults.capacity) {
             print(searchResults[indexPath.row].qualifiedName)
             cell.textLabel?.text = searchResults[indexPath.row].qualifiedName
         } else {
-            cell.textLabel?.text = "Whee"
+            cell.textLabel?.text = ""
         }
-        //print(searchResults[indexPath.row].qualifiedName)
-        //cell.textLabel?.text = searchResults[indexPath.row].qualifiedName
-        //cell.textLabel?.text = "Whee"
         return cell
      }
     
