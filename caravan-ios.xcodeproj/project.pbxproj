@@ -135,12 +135,12 @@
 			children = (
 				B9B91EEB1E39664800FBFEAD /* AppDelegate.swift */,
 				B9B91EED1E39664800FBFEAD /* MapViewController.swift */,
+				B99777861E55228A0047149B /* SearchViewController.swift */,
 				B9B91EEF1E39664800FBFEAD /* Main.storyboard */,
 				B9B91EF21E39664800FBFEAD /* Assets.xcassets */,
 				B9B91EF41E39664800FBFEAD /* LaunchScreen.storyboard */,
 				B93F00E01E396A6600ACFB48 /* GoogleService-Info.plist */,
 				B9B91EF71E39664800FBFEAD /* Info.plist */,
-				B99777861E55228A0047149B /* SearchViewController.swift */,
 			);
 			path = "caravan-ios";
 			sourceTree = "<group>";

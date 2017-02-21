@@ -76,8 +76,9 @@ class MapViewController: UIViewController {
 }
 
 extension MapViewController: MGLMapViewDelegate {
+    
     // get a route object and also draw the route on the map
-    func mapbox() {
+    func mapboxRoute() {
         let waypoints = [
             Waypoint(
                 coordinate: CLLocationCoordinate2D(latitude: 38.9131752, longitude: -77.0324047),
@@ -130,7 +131,9 @@ extension MapViewController: MGLMapViewDelegate {
                 
             }
         }
-        
+    }
+    
+    func annotation() {
         let point = MGLPointAnnotation()
         point.coordinate = CLLocationCoordinate2D(latitude: 35.301355, longitude: -120.660459)
         point.title = "California Polytechnic San Luis Obispo"
