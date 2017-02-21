@@ -57,14 +57,8 @@ class SearchViewController: UIViewController {
 }
 
 extension SearchViewController: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        //print(textField.text)
-    }
-    
     func searchTextChanged(_ textField: UITextField) {
-        //print("what what " + textField.text!)
         mapboxGeocoder(queryText: (textField.text ?? ""))
-        //tableView.reloadData()
     }
 }
 
@@ -86,7 +80,6 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         // Configure the cell...
         if (indexPath.row < searchResults.capacity) {
-            print(searchResults[indexPath.row].qualifiedName)
             cell.textLabel?.text = searchResults[indexPath.row].qualifiedName
         } else {
             cell.textLabel?.text = ""

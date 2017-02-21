@@ -159,7 +159,6 @@ extension MapViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         locValue = (manager.location?.coordinate)!
-        //print("locations = \(locValue.latitude) \(locValue.longitude)")
     }
 }
 
