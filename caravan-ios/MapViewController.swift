@@ -10,6 +10,7 @@ import UIKit
 import Mapbox
 import MapboxDirections
 import FirebaseDatabase
+import FirebaseAuth
 import MapboxGeocoder
 
 enum menuState {
@@ -78,6 +79,16 @@ class MapViewController: UIViewController {
         }
         
         mapView.delegate = self
+    }
+    
+    @IBAction func signOutPressed(_ sender: UIButton) {
+        let firebaseAuth = FIRAuth.auth()
+        do {
+            try firebaseAuth?.signOut()
+            print("YAY SIGNOUT")
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+        }
     }
 
     override func didReceiveMemoryWarning() {
