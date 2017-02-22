@@ -33,8 +33,19 @@ class MapViewController: UIViewController {
     var menuView: UITableView?
     var isMenuOpen: Bool = false
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        if (appDelegate.user == nil){
+            self.performSegue(withIdentifier: "showLogin", sender: self)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
         
         // set up menu
         menuView = UITableView.init(frame: CGRect.init(x: -400, y: 0, width: 400, height: self.view.frame.height))
