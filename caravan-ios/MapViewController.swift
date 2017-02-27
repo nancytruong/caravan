@@ -86,6 +86,7 @@ class MapViewController: UIViewController {
         do {
             try firebaseAuth?.signOut()
             print("YAY SIGNOUT")
+            self.performSegue(withIdentifier: "unwindToLogin", sender: self)
         } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
         }
