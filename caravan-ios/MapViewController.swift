@@ -34,6 +34,8 @@ class MapViewController: UIViewController {
     var menuView: UITableView?
     var isMenuOpen: Bool = false
     
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -96,6 +98,23 @@ class MapViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    @IBAction func getLocationPressed(_ sender: Any) {
+        
+        let userId = appDelegate.user?.uid
+        
+        ref.child("users").child(userId!).child("coord").observeSingleEvent(of: .value, with: { (snapshot) in
+            // Get user value
+            let value = snapshot.value as? NSDictionary
+            let longitude = value?["longitude"] as? Float ?? 0.0
+            let latitude = value?["latitude"] as? Float ?? 0.0
+            print("FROM DB: long", longitude, "& lat", latitude)
+            
+        }) { (error) in
+            print(error.localizedDescription)
+        }
+    }
+    
 }
 
 extension MapViewController: MGLMapViewDelegate {
@@ -175,9 +194,12 @@ extension MapViewController: CLLocationManagerDelegate {
     @IBAction func sendLocationPressed(_ sender: Any) {
         //let username = "Spud"
         //ref.child("users/1/username").setValue(username)
+        
+        let userId = appDelegate.user?.uid
+        
         print("sending long: \(locValue.longitude) lat: \(locValue.latitude)")
-        ref.child("users/1/coord/longitude").setValue(locValue.longitude)
-        ref.child("users/1/coord/latitude").setValue(locValue.latitude)
+        ref.child("users").child(userId!).child("coord/longitude").setValue(locValue.longitude)
+        ref.child("users").child(userId!).child("coord/latitude").setValue(locValue.latitude)
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
