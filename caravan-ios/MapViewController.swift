@@ -52,6 +52,7 @@ class MapViewController: UIViewController {
         
         // set up menu
         menuView = UITableView.init(frame: CGRect.init(x: -400, y: 0, width: 400, height: self.view.frame.height))
+        //menuView?.isUserInteractionEnabled = true
         self.view.addSubview(menuView!)
         
         // create & add the screen edge gesture recognizer to open the menu
@@ -59,6 +60,11 @@ class MapViewController: UIViewController {
                                                          action: #selector(self.handleEdgePan(recognizer:)))
         edgePanGR.edges = .left
         self.view.addGestureRecognizer(edgePanGR)
+        
+        // create & add the pan gesture recognizer to open the menu
+        let panGR = UIPanGestureRecognizer(target: self,
+                                           action: #selector(self.handlePan(recognizer:)))
+        self.view.addGestureRecognizer(panGR)
         
         //create & add the tap gesutre recognizer to close the menu
         let tapGR = UITapGestureRecognizer(target: self,
@@ -208,7 +214,13 @@ extension MapViewController: CLLocationManagerDelegate {
 }
 
 extension MapViewController: UIGestureRecognizerDelegate {
-    // GESTURE RECOGNIZERS
+    // GESTURE RECOGNIZERSs
+    
+    func handlePan(recognizer: UIPanGestureRecognizer) {
+        // close animation of menu
+        self.closeMenu()
+    }
+
     func handleEdgePan(recognizer: UIScreenEdgePanGestureRecognizer) {
         // open animation of menu
         self.openMenu()
