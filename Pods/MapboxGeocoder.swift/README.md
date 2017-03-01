@@ -11,25 +11,21 @@ MapboxGeocoder.swift pairs well with [MapboxDirections.swift](https://github.com
 
 ## Getting started
 
-**Static Framework**
+Specify the following dependency in your [Carthage](https://github.com/Carthage/Carthage/) Cartfile:
 
-Download a framework build from [the releases page](https://github.com/mapbox/MapboxGeocoder.swift/releases). Import `MapboxGeocoder.framework` into your project, then `import MapboxGeocoder` or `@import MapboxGeocoder;`. 
+```cartfile
+github "Mapbox/MapboxGeocoder.swift" ~> 0.6
+```
 
-**[CocoaPods](http://cocoapods.org/)**
-
-In your Podfile:
+Or in your [CocoaPods](http://cocoapods.org/) Podfile:
 
 ```podspec
-pod 'MapboxGeocoder.swift', :git => 'https://github.com/mapbox/MapboxGeocoder.swift.git', :tag => 'v0.5.0'
+pod 'MapboxGeocoder.swift', :git => 'https://github.com/mapbox/MapboxGeocoder.swift.git', '~> 0.6'
 ```
 
-**[Carthage](https://github.com/Carthage/Carthage)**
+Then `import MapboxDirections` or `@import MapboxDirections;`.
 
-In your Cartfile:
-
-```sh
-github "Mapbox/MapboxGeocoder.swift" ~> 0.5.0
-```
+v0.5.2 is the last release of MapboxGeocoder.swift written in Swift 2.3. The `swift2.3` branch corresponds to this release, plus any critical bug fixes that have been applied since. All subsequent releases will be based on the `master` branch, which is written in Swift 3. The Swift examples below are written in Swift 3; see the `swift2.3` branch’s readme for Swift 2.3 examples.
 
 This repository includes example applications written in both Swift and Objective-C showing use of the framework (as well as a comparison of writing apps in either language). More examples and detailed documentation are available in the [Mapbox API Documentation](https://www.mapbox.com/api-documentation/?language=Swift#geocoding).
 
@@ -59,7 +55,7 @@ Alternatively, you can place your access token in the `MGLMapboxAccessToken` key
 
 ```swift
 // main.swift
-let geocoder = Geocoder.sharedGeocoder
+let geocoder = Geocoder.shared
 ```
 
 ```objc
@@ -67,7 +63,7 @@ let geocoder = Geocoder.sharedGeocoder
 MBGeocoder *geocoder = [MBGeocoder sharedGeocoder];
 ```
 
-With the geocoder in hand, construct a geocode options object and pass it into the `Geocoder.geocode(options:completionHandler:)` method.
+With the geocoder in hand, construct a geocode options object and pass it into the `Geocoder.geocode(_:completionHandler:)` method.
 
 ### Forward geocoding
 
@@ -84,27 +80,29 @@ let options = ForwardGeocodeOptions(query: "200 queen street")
 // To refine the search, you can set various properties on the options object.
 options.allowedISOCountryCodes = ["CA"]
 options.focalLocation = CLLocation(latitude: 45.3, longitude: -66.1)
-options.allowedScopes = [.Address, .PointOfInterest]
+options.allowedScopes = [.address, .pointOfInterest]
 
-let task = geocoder.geocode(options: options) { (placemarks, attribution, error) in
-    if let placemark = placemarks?[0] {
-        print(placemark.name)
-            // 200 Queen St
-        print(placemark.qualifiedName)
-            // 200 Queen St, Saint John, New Brunswick E2L 2X1, Canada
-        
-        let coordinate = placemark.location!.coordinate
-        print("\(coordinate.latitude), \(coordinate.longitude)")
-            // 45.270093, -66.050985
-        
-        #if !os(tvOS)
+let task = geocoder.geocode(options) { (placemarks, attribution, error) in
+    guard let placemark = placemarks?.first else {
+        return
+    }
+    
+    print(placemark.name)
+        // 200 Queen St
+    print(placemark.qualifiedName)
+        // 200 Queen St, Saint John, New Brunswick E2L 2X1, Canada
+    
+    let coordinate = placemark.location.coordinate
+    print("\(coordinate.latitude), \(coordinate.longitude)")
+        // 45.270093, -66.050985
+    
+    #if !os(tvOS)
         let formatter = CNPostalAddressFormatter()
-        print(formatter.stringFromPostalAddress(placemark.postalAddress))
+        print(formatter.string(from: placemark.postalAddress!))
             // 200 Queen St
             // Saint John New Brunswick E2L 2X1
             // Canada
-        #endif
-    }
+    #endif
 }
 ```
 
@@ -154,17 +152,20 @@ _Reverse geocoding_ takes a geographic coordinate and produces a hierarchy of pl
 let options = ReverseGeocodeOptions(coordinate: CLLocationCoordinate2D(latitude: 40.733, longitude: -73.989))
 // Or perhaps: ReverseGeocodeOptions(location: locationManager.location)
 
-let task = geocoder.geocode(options: options) { (placemarks, attribution, error) in
-    let placemark = placemarks[0]
-    print(placemark.imageName)
+let task = geocoder.geocode(options) { (placemarks, attribution, error) in
+    guard let placemark = placemarks?.first else {
+        return
+    }
+    
+    print(placemark.imageName ?? "")
         // telephone
-    print(placemark.genres?.joinWithSeparator(", "))
+    print(placemark.genres?.joined(separator: ", ") ?? "")
         // computer, electronic
-    print(placemark.region?.name)
+    print(placemark.administrativeRegion?.name ?? "")
         // New York
-    print(placemark.region?.code)
+    print(placemark.administrativeRegion?.code ?? "")
         // US-NY
-    print(placemark.place?.wikidataItemIdentifier)
+    print(placemark.place?.wikidataItemIdentifier ?? "")
         // Q60
 }
 ```
@@ -183,9 +184,9 @@ NSURLSessionDataTask *task = [geocoder geocodeWithOptions:options
         // telephone
     NSLog(@"%@", [placemark.genres componentsJoinedByString:@", "]);
         // computer, electronic
-    NSLog(@"%@", placemark.region.name);
+    NSLog(@"%@", placemark.administrativeRegion.name);
         // New York
-    NSLog(@"%@", placemark.region.code);
+    NSLog(@"%@", placemark.administrativeRegion.code);
         // US-NY
     NSLog(@"%@", placemark.place.wikidataItemIdentifier);
         // Q60
@@ -194,14 +195,35 @@ NSURLSessionDataTask *task = [geocoder geocodeWithOptions:options
 
 ### Batch geocoding
 
-With _batch geocoding_, you can perform up to 50 distinct forward or reverse geocoding requests simultaneously and store the results in a private database. Create a ForwardBatchGeocodingOptions or ReverseBatchGeocodingOptions object in Swift, or an MBForwardBatchGeocodingOptions or MBReverseBatchGeocodingOptions object in Objective-C, and pass it into the `Geocoder.batchGeocode(options:completionHandler:)` method.
+With _batch geocoding_, you can perform up to 50 distinct forward or reverse geocoding requests simultaneously and store the results in a private database. Create a ForwardBatchGeocodingOptions or ReverseBatchGeocodingOptions object in Swift, or an MBForwardBatchGeocodingOptions or MBReverseBatchGeocodingOptions object in Objective-C, and pass it into the `Geocoder.batchGeocode(_:completionHandler:)` method.
+
+```swift
+// main.swift
+let options = ForwardBatchGeocodeOptions(queries: ["skyline chili", "gold star chili"])
+options.focalLocation = locationManager.location
+options.allowedScopes = .pointOfInterest
+
+let task = geocoder.batchGeocode(options) { (placemarksByQuery, attributionsByQuery, error) in
+    guard let placemarksByQuery = placemarksByQuery else {
+        return
+    }
+    
+    let nearestSkyline = placemarksByQuery[0][0].location
+    let distanceToSkyline = nearestSkyline.distance(from: locationManager.location)
+    let nearestGoldStar = placemarksByQuery[1][0].location
+    let distanceToGoldStar = nearestGoldStar.distance(from: locationManager.location)
+
+    let distance = LengthFormatter().string(fromMeters: min(distanceToSkyline, distanceToGoldStar))
+    print("Found a chili parlor \(distance) away.")
+}
+```
 
 Batch geocoding is available to Mapbox enterprise accounts. See the [Mapbox Geocoding](https://www.mapbox.com/geocoding/) website for more information.
 
 ## Tests
 
-To run the included unit tests, you need to use [CocoaPods](http://cocoapods.org) to install the dependencies. 
+To run the included unit tests, you need to use [Carthage](https://github.com/Carthage/Carthage/) 0.19 or above to install the dependencies. 
 
-1. `pod install`
-1. `open MapboxGeocoder.xcworkspace`
-1. Switch to the MapboxGeocoder scheme and go to Product ‣ Test.
+1. `carthage bootstrap`
+1. `open MapboxGeocoder.xcodeproj`
+1. Switch to the “MapboxGeocoder iOS” scheme and go to Product ‣ Test.

@@ -1,37 +1,3 @@
-// MARK: Specifying the Routing Profile
-
-/**
- The returned directions are appropriate for driving or riding a car, truck, or motorcycle.
- 
- This profile prioritizes fast routes by preferring high-speed roads like highways. A driving route may use a ferry where necessary.
- */
-public let MBDirectionsProfileIdentifierAutomobile = "mapbox/driving"
-
-/**
- The returned directions are appropriate for driving or riding a car, truck, or motorcycle.
- 
- This profile avoids traffic congestion based on current traffic data. A driving route may use a ferry where necessary.
- 
- - experiment: This profile is experimental. Where traffic data is absent, this profile prefers high-speed roads like highways, similar to `MBDirectionsProfileIdentifierAutomobile`.
- */
-public let MBDirectionsProfileIdentifierAutomobileAvoidingTraffic = "mapbox/driving-traffic"
-
-/**
- The returned directions are appropriate for riding a bicycle.
- 
- This profile prioritizes short, safe routes by avoiding highways and preferring cycling infrastructure, such as bike lanes on surface streets. A cycling route may, where necessary, use other modes of transportation, such as ferries or trains, or require dismounting the bicycle for a distance.
- */
-public let MBDirectionsProfileIdentifierCycling = "mapbox/cycling"
-
-/**
- The returned directions are appropriate for walking or hiking.
- 
- This profile prioritizes short routes, making use of sidewalks and trails where available. A walking route may use other modes of transportation, such as ferries or trains, where necessary.
- */
-public let MBDirectionsProfileIdentifierWalking = "mapbox/walking"
-
-// MARK: -
-
 /**
  A `RouteShapeFormat` indicates the format of a route’s shape in the raw HTTP response.
  */
@@ -40,13 +6,13 @@ public enum RouteShapeFormat: UInt, CustomStringConvertible {
     /**
      The route’s shape is delivered in [GeoJSON](http://geojson.org/) format.
      
-     This standard format is human-readable and can be parsed straightforwardly, but it is far more verbose than `Polyline`.
+     This standard format is human-readable and can be parsed straightforwardly, but it is far more verbose than `polyline`.
      */
     case geoJSON
     /**
      The route’s shape is delivered in [encoded polyline algorithm](https://developers.google.com/maps/documentation/utilities/polylinealgorithm) format.
      
-     This machine-readable format is considerably more compact than `GeoJSON`.
+     This machine-readable format is considerably more compact than `geoJSON`.
      */
     case polyline
     
@@ -93,7 +59,7 @@ public enum RouteShapeResolution: UInt, CustomStringConvertible {
     /**
      The route’s shape is as detailed as possible.
      
-     The resulting shape is equivalent to concatenating the shapes of all the route’s consitituent steps. You can focus on individual segments of this route while faithfully representing the path of the route. If you only intend to show a route overview and do not need to analyze the route line in any way, consider specifying `Low` instead to considerably reduce the size of the response.
+     The resulting shape is equivalent to concatenating the shapes of all the route’s consitituent steps. You can focus on individual segments of this route while faithfully representing the path of the route. If you only intend to show a route overview and do not need to analyze the route line in any way, consider specifying `low` instead to considerably reduce the size of the response.
      */
     case full
     
@@ -139,13 +105,13 @@ open class RouteOptions: NSObject {
      - parameter waypoints: An array of `Waypoint` objects representing locations that the route should visit in chronological order. The array should contain at least two waypoints (the source and destination) and at most 25 waypoints.
      - parameter profileIdentifier: A string specifying the primary mode of transportation for the routes. This parameter, if set, should be set to `MBDirectionsProfileIdentifierAutomobile`, `MBDirectionsProfileIdentifierAutomobileAvoidingTraffic`, `MBDirectionsProfileIdentifierCycling`, or `MBDirectionsProfileIdentifierWalking`. `MBDirectionsProfileIdentifierAutomobile` is used by default.
      */
-    public init(waypoints: [Waypoint], profileIdentifier: String? = nil) {
+    public init(waypoints: [Waypoint], profileIdentifier: MBDirectionsProfileIdentifier? = nil) {
         assert(waypoints.count >= 2, "A route requires at least a source and destination.")
         assert(waypoints.count <= 25, "A route may not have more than 25 waypoints.")
         
         self.waypoints = waypoints
-        self.profileIdentifier = profileIdentifier ?? MBDirectionsProfileIdentifierAutomobile
-        self.allowsUTurnAtWaypoint = ![MBDirectionsProfileIdentifierAutomobile, MBDirectionsProfileIdentifierAutomobileAvoidingTraffic].contains(self.profileIdentifier)
+        self.profileIdentifier = profileIdentifier ?? .automobile
+        self.allowsUTurnAtWaypoint = ![MBDirectionsProfileIdentifier.automobile.rawValue, MBDirectionsProfileIdentifier.automobileAvoidingTraffic.rawValue].contains(self.profileIdentifier.rawValue)
     }
     
     /**
@@ -156,7 +122,7 @@ open class RouteOptions: NSObject {
      - parameter locations: An array of `CLLocation` objects representing locations that the route should visit in chronological order. The array should contain at least two locations (the source and destination) and at most 25 locations. Each location object is converted into a `Waypoint` object. This class respects the `CLLocation` class’s `coordinate` and `horizontalAccuracy` properties, converting them into the `Waypoint` class’s `coordinate` and `coordinateAccuracy` properties, respectively.
      - parameter profileIdentifier: A string specifying the primary mode of transportation for the routes. This parameter, if set, should be set to `MBDirectionsProfileIdentifierAutomobile`, `MBDirectionsProfileIdentifierAutomobileAvoidingTraffic`, `MBDirectionsProfileIdentifierCycling`, or `MBDirectionsProfileIdentifierWalking`. `MBDirectionsProfileIdentifierAutomobile` is used by default.
      */
-    public convenience init(locations: [CLLocation], profileIdentifier: String? = nil) {
+    public convenience init(locations: [CLLocation], profileIdentifier: MBDirectionsProfileIdentifier? = nil) {
         let waypoints = locations.map { Waypoint(location: $0) }
         self.init(waypoints: waypoints, profileIdentifier: profileIdentifier)
     }
@@ -167,7 +133,7 @@ open class RouteOptions: NSObject {
      - parameter coordinates: An array of geographic coordinates representing locations that the route should visit in chronological order. The array should contain at least two locations (the source and destination) and at most 25 locations. Each coordinate is converted into a `Waypoint` object.
      - parameter profileIdentifier: A string specifying the primary mode of transportation for the routes. This parameter, if set, should be set to `MBDirectionsProfileIdentifierAutomobile`, `MBDirectionsProfileIdentifierAutomobileAvoidingTraffic`, `MBDirectionsProfileIdentifierCycling`, or `MBDirectionsProfileIdentifierWalking`. `MBDirectionsProfileIdentifierAutomobile` is used by default.
      */
-    public convenience init(coordinates: [CLLocationCoordinate2D], profileIdentifier: String? = nil) {
+    public convenience init(coordinates: [CLLocationCoordinate2D], profileIdentifier: MBDirectionsProfileIdentifier? = nil) {
         let waypoints = coordinates.map { Waypoint(coordinate: $0) }
         self.init(waypoints: waypoints, profileIdentifier: profileIdentifier)
     }
@@ -201,7 +167,7 @@ open class RouteOptions: NSObject {
      
      This property should be set to `MBDirectionsProfileIdentifierAutomobile`, `MBDirectionsProfileIdentifierAutomobileAvoidingTraffic`, `MBDirectionsProfileIdentifierCycling`, or `MBDirectionsProfileIdentifierWalking`. The default value of this property is `MBDirectionsProfileIdentifierAutomobile`, which specifies driving directions.
      */
-    open var profileIdentifier: String
+    open var profileIdentifier: MBDirectionsProfileIdentifier
     
     // MARK: Specifying the Response Format
     
@@ -232,7 +198,7 @@ open class RouteOptions: NSObject {
      
      This property has no effect on the returned shape objects, although the choice of format can significantly affect the size of the underlying HTTP response.
      
-     The default value of this property is `Polyline`.
+     The default value of this property is `polyline`.
      */
     open var shapeFormat = RouteShapeFormat.polyline
     
@@ -241,7 +207,7 @@ open class RouteOptions: NSObject {
      
      This property has no effect on the shape of the returned route’s steps.
      
-     The default value of this property is `Low`, specifying a low-resolution route shape.
+     The default value of this property is `low`, specifying a low-resolution route shape.
      */
     open var routeShapeResolution = RouteShapeResolution.low
     
@@ -254,7 +220,7 @@ open class RouteOptions: NSObject {
         assert(!queries.isEmpty, "No query")
         
         let queryComponent = queries.joined(separator: ";")
-        return "directions/v5/\(profileIdentifier)/\(queryComponent).json"
+        return "directions/v5/\(profileIdentifier.rawValue)/\(queryComponent).json"
     }
     
     /**
@@ -365,7 +331,7 @@ open class RouteOptionsV4: RouteOptions {
     /**
      The format of the returned route steps’ instructions.
      
-     By default, the value of this property is `Text`, specifying plain text instructions.
+     By default, the value of this property is `text`, specifying plain text instructions.
      */
     open var instructionFormat: InstructionFormat = .text
     
@@ -381,7 +347,7 @@ open class RouteOptionsV4: RouteOptions {
     override var path: String {
         assert(!queries.isEmpty, "No query")
         
-        let profileIdentifier = self.profileIdentifier.replacingOccurrences(of: "/", with: ".")
+        let profileIdentifier = self.profileIdentifier.rawValue.replacingOccurrences(of: "/", with: ".")
         let queryComponent = queries.joined(separator: ";")
         return "v4/directions/\(profileIdentifier)/\(queryComponent).json"
     }

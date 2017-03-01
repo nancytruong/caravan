@@ -4,6 +4,16 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>AWSCore.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>AWSPolly.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>GTMSessionFetcher.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -34,6 +44,16 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>MapboxNavigationUI.swift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>OSRMTextInstructions.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-caravan-ios.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -54,9 +74,29 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pulley.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SDWebImage.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>02E740F27A8446B61AACA32524A9F0E1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1A5A0AC0B72EE11C89ED297C3A78DB02</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>3A790696D649F8A6A30594F7DC9BB900</key>
 		<dict>
 			<key>primary</key>
@@ -72,7 +112,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>54DD374144A221B7ED9EC9835EB5CFF9</key>
+		<key>5ACFCBB5C36270A9DF9A2D2D11708867</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>77DE086408031E463715A228F54D39AE</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7DF36B7388E2ECF1FD36A9D6888E9C8C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -82,12 +132,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>935745495B044A43E17E5CC9349B0DCB</key>
+		<key>8A5D31AD57FDE15BF2823A281CFFED20</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>AAD616609C789739A241CC784B233D5D</key>
+		<key>8F9554B7ED7A0CBBD8A310319360C329</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -97,12 +147,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D6781338AAC83341ABB6C80FFAB04FFE</key>
+		<key>DF08CCF303A40082DE09C3E60912EA5C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E85FEF2C8E8E2C2C1A8B4AB80D824D73</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>F3B0D303D1E2FEEE382F99CB69B2053C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F928C424016F55635107D001D00562D3</key>
 		<dict>
 			<key>primary</key>
 			<true/>

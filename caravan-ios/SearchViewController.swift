@@ -11,7 +11,7 @@ import MapboxGeocoder
 
 class SearchViewController: UIViewController {
     
-    let geocoder = Geocoder.sharedGeocoder
+    let geocoder = Geocoder.shared
     var searchResults: [GeocodedPlacemark] = []
     
     @IBOutlet weak var searchText: UITextField!
