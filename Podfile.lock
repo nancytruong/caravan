@@ -84,7 +84,7 @@ CHECKOUT OPTIONS:
     :commit: 022ed3f7fc7e77265b7cd9950a0727ff72241b62
     :git: https://github.com/mapbox/MapboxNavigation.swift.git
   MapboxNavigationUI.swift:
-    :commit: 022ed3f7fc7e77265b7cd9950a0727ff72241b62
+    :commit: 9c1053791d329de6a60c55b0472e75b63d0ab87c
     :git: https://github.com/mapbox/MapboxNavigation.swift.git
   OSRMTextInstructions:
     :commit: bdd962bf5593f951bbbbd26435f732a829dacda7

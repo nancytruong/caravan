@@ -9,6 +9,8 @@
 import UIKit
 import Mapbox
 import MapboxDirections
+import MapboxNavigation
+import MapboxNavigationUI
 import FirebaseDatabase
 import FirebaseAuth
 import MapboxGeocoder
@@ -83,6 +85,8 @@ class MapViewController: UIViewController {
         }
         
         mapView.delegate = self
+        
+        mapboxRoute()
     }
     
     @IBAction func signOutPressed(_ sender: UIButton) {
@@ -142,8 +146,10 @@ extension MapViewController: MGLMapViewDelegate {
                     print("— \(formattedDistance) —")
                 }
                 
+                let viewController = NavigationUI.routeViewController(for: route, directions: self.directions)
+                self.present(viewController, animated: true, completion: nil)
                 
-                
+                /*
                 if route.coordinateCount > 0 {
                     // Convert the route’s coordinates into a polyline.
                     var routeCoordinates = route.coordinates!
@@ -152,7 +158,7 @@ extension MapViewController: MGLMapViewDelegate {
                     // Add the polyline to the map and fit the viewport to the polyline.
                     self.mapView.addAnnotation(routeLine)
                     self.mapView.setVisibleCoordinates(&routeCoordinates, count: route.coordinateCount, edgePadding: .zero, animated: true)
-                }
+                }*/
                 
                 
             }

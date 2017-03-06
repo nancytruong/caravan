@@ -87,6 +87,11 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
      }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        print(cell.textLabel?.text)
+    }
+    
     
     /*
      // Override to support conditional editing of the table view.
