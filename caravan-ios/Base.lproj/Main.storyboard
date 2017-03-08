@@ -128,6 +128,15 @@
                                 <state key="normal" title="Sign Out"/>
                                 <connections>
                                     <action selector="signOutPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="SWk-BV-Zge"/>
+                                    <segue destination="nm0-7i-hwg" kind="unwind" identifier="unwindToLogin" unwindAction="unwindToLoginWithSegue:" id="3Hv-yh-9oC"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bUi-sr-FZz">
+                                <rect key="frame" x="93" y="175" width="201" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Get Location from Firebase"/>
+                                <connections>
+                                    <action selector="getLocationPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="NAo-M4-m5d"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -150,6 +159,7 @@
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="rOZ-LJ-mW4">
                                 <rect key="frame" x="16" y="7" width="39" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <gestureRecognizers/>
                                 <state key="normal" title="Menu"/>
                                 <connections>
                                     <action selector="menuTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LhX-uY-Nmf"/>
@@ -169,8 +179,9 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <exit id="nm0-7i-hwg" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="398" y="-47"/>
+            <point key="canvasLocation" x="397.60000000000002" y="-47.226386806596707"/>
         </scene>
         <!--Search View Controller-->
         <scene sceneID="KkR-mz-fYU">

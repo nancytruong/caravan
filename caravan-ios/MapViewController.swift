@@ -33,6 +33,10 @@ class MapViewController: UIViewController {
     let menuSize: CGFloat = 0.8
     var topBuffer: CGFloat?
     
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
+    var panGR : UIPanGestureRecognizer?
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -94,6 +98,7 @@ class MapViewController: UIViewController {
         do {
             try firebaseAuth?.signOut()
             print("YAY SIGNOUT")
+            self.performSegue(withIdentifier: "unwindToLogin", sender: self)
         } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
         }
@@ -103,6 +108,24 @@ class MapViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    @IBAction func getLocationPressed(_ sender: Any) {
+        
+        //let userId = appDelegate.user?.uid
+        let userId = "BKGE9xrtP5V6QwWYirRF3Rxpkdv2" //change this hard code later
+        
+        ref.child("users").child(userId).child("coord").observeSingleEvent(of: .value, with: { (snapshot) in
+            // Get user value
+            let value = snapshot.value as? NSDictionary
+            let longitude = value?["longitude"] as? Float ?? 0.0
+            let latitude = value?["latitude"] as? Float ?? 0.0
+            print("FROM DB: long", longitude, "& lat", latitude)
+            
+        }) { (error) in
+            print(error.localizedDescription)
+        }
+    }
+    
 }
 
 extension MapViewController: MGLMapViewDelegate {
@@ -184,9 +207,12 @@ extension MapViewController: CLLocationManagerDelegate {
     @IBAction func sendLocationPressed(_ sender: Any) {
         //let username = "Spud"
         //ref.child("users/1/username").setValue(username)
+        
+        let userId = appDelegate.user?.uid
+        
         print("sending long: \(locValue.longitude) lat: \(locValue.latitude)")
-        ref.child("users/1/coord/longitude").setValue(locValue.longitude)
-        ref.child("users/1/coord/latitude").setValue(locValue.latitude)
+        ref.child("users").child(userId!).child("coord/longitude").setValue(locValue.longitude)
+        ref.child("users").child(userId!).child("coord/latitude").setValue(locValue.latitude)
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -194,8 +220,23 @@ extension MapViewController: CLLocationManagerDelegate {
     }
 }
 
+extension UIPanGestureRecognizer {
+    
+    func isLeft(theViewYouArePassing: UIView) -> Bool {
+        let v : CGPoint = velocity(in: theViewYouArePassing)
+        if v.x > 0 {
+            print("Gesture went right")
+            return false
+        } else {
+            print("Gesture went left")
+            return true
+        }
+    }
+}
+
 extension MapViewController: UIGestureRecognizerDelegate {
     // GESTURE RECOGNIZERS
+    
     func handleEdgePan(recognizer: UIScreenEdgePanGestureRecognizer) {
         // open animation of menu
         self.openMenu()
