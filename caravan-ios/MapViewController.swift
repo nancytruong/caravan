@@ -86,7 +86,7 @@ class MapViewController: UIViewController {
         
         mapView.delegate = self
         
-        mapboxRoute()
+        //mapboxRoute()
     }
     
     @IBAction func signOutPressed(_ sender: UIButton) {

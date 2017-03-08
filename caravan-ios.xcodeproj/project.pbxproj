@@ -21,6 +21,7 @@
 		B9B91EF61E39664800FBFEAD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9B91EF41E39664800FBFEAD /* LaunchScreen.storyboard */; };
 		B9B91F011E39664800FBFEAD /* caravan_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B91F001E39664800FBFEAD /* caravan_iosTests.swift */; };
 		B9B91F0C1E39664800FBFEAD /* caravan_iosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B91F0B1E39664800FBFEAD /* caravan_iosUITests.swift */; };
+		B9DE53CF1E6E6B4400831710 /* MapboxModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9DE53CE1E6E6B4400831710 /* MapboxModel.swift */; };
 		E041C582877055996DE58AE2 /* Pods_caravan_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BADD37FE9B47130674ECC720 /* Pods_caravan_ios.framework */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +65,7 @@
 		B9B91F071E39664800FBFEAD /* caravan-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "caravan-iosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9B91F0B1E39664800FBFEAD /* caravan_iosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = caravan_iosUITests.swift; sourceTree = "<group>"; };
 		B9B91F0D1E39664800FBFEAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B9DE53CE1E6E6B4400831710 /* MapboxModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapboxModel.swift; sourceTree = "<group>"; };
 		BADD37FE9B47130674ECC720 /* Pods_caravan_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_caravan_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2FF9F453FFD5B69110977CA /* Pods-caravan-iosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-caravan-iosTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-caravan-iosTests/Pods-caravan-iosTests.release.xcconfig"; sourceTree = "<group>"; };
 		F3221F18AF26FCBBBDFB9C14 /* Pods-caravan-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-caravan-ios.release.xcconfig"; path = "Pods/Target Support Files/Pods-caravan-ios/Pods-caravan-ios.release.xcconfig"; sourceTree = "<group>"; };
@@ -135,10 +137,9 @@
 		B9B91EEA1E39664800FBFEAD /* caravan-ios */ = {
 			isa = PBXGroup;
 			children = (
+				B9DE53CD1E6E675800831710 /* Model */,
+				B9DE53CC1E6E674C00831710 /* Controller */,
 				B9B91EEB1E39664800FBFEAD /* AppDelegate.swift */,
-				B9B91EED1E39664800FBFEAD /* MapViewController.swift */,
-				B99777861E55228A0047149B /* SearchViewController.swift */,
-				B92E18281E5D073700934506 /* LoginViewController.swift */,
 				B9B91EEF1E39664800FBFEAD /* Main.storyboard */,
 				B9B91EF21E39664800FBFEAD /* Assets.xcassets */,
 				B9B91EF41E39664800FBFEAD /* LaunchScreen.storyboard */,
@@ -164,6 +165,24 @@
 				B9B91F0D1E39664800FBFEAD /* Info.plist */,
 			);
 			path = "caravan-iosUITests";
+			sourceTree = "<group>";
+		};
+		B9DE53CC1E6E674C00831710 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				B9B91EED1E39664800FBFEAD /* MapViewController.swift */,
+				B99777861E55228A0047149B /* SearchViewController.swift */,
+				B92E18281E5D073700934506 /* LoginViewController.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		B9DE53CD1E6E675800831710 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B9DE53CE1E6E6B4400831710 /* MapboxModel.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 		D07702B0325EA22D40BAF914 /* Frameworks */ = {
@@ -466,6 +485,7 @@
 				B92E18291E5D073700934506 /* LoginViewController.swift in Sources */,
 				B9B91EEE1E39664800FBFEAD /* MapViewController.swift in Sources */,
 				B99777871E55228A0047149B /* SearchViewController.swift in Sources */,
+				B9DE53CF1E6E6B4400831710 /* MapboxModel.swift in Sources */,
 				B9B91EEC1E39664800FBFEAD /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
