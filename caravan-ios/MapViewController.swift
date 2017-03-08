@@ -112,7 +112,9 @@ class MapViewController: UIViewController {
     @IBAction func getLocationPressed(_ sender: Any) {
         
         //let userId = appDelegate.user?.uid
-        let userId = "BKGE9xrtP5V6QwWYirRF3Rxpkdv2" //change this hard code later
+        // Renee: BbQD2VoTHrQ4XszHJswrnZ3MeMk1
+        // Nancy: BKGE9xrtP5V6QwWYirRF3Rxpkdv2
+        let userId = "BbQD2VoTHrQ4XszHJswrnZ3MeMk1" //change this hard code later
         
         ref.child("users").child(userId).child("coord").observeSingleEvent(of: .value, with: { (snapshot) in
             // Get user value
