@@ -9,20 +9,17 @@
 import UIKit
 import Mapbox
 import MapboxDirections
+import MapboxNavigation
+import MapboxNavigationUI
 import FirebaseDatabase
 import FirebaseAuth
 import MapboxGeocoder
-
-enum menuState {
-    case Collapsed
-    case Expanded
-}
 
 class MapViewController: UIViewController {
     
     // mapbox
     @IBOutlet var mapView: MGLMapView!
-    let geocoder = Geocoder.sharedGeocoder
+    let geocoder = Geocoder.shared
     let directions = Directions.shared
     
     // firebase
@@ -31,8 +28,10 @@ class MapViewController: UIViewController {
     let locationManager = CLLocationManager()
     var locValue: CLLocationCoordinate2D!
     
-    var menuView: UITableView?
+    var menuView: UIView?
     var isMenuOpen: Bool = false
+    let menuSize: CGFloat = 0.8
+    var topBuffer: CGFloat?
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
@@ -42,6 +41,7 @@ class MapViewController: UIViewController {
         super.viewDidAppear(animated)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
+        // check if valid user, if no go to login
         if (appDelegate.user == nil){
             self.performSegue(withIdentifier: "showLogin", sender: self)
         }
@@ -52,9 +52,15 @@ class MapViewController: UIViewController {
         
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         
+        topBuffer = (self.navigationController?.navigationBar.frame.height)! + UIApplication.shared.statusBarFrame.size.height
+        
         // set up menu
-        menuView = UITableView.init(frame: CGRect.init(x: -400, y: 0, width: 400, height: self.view.frame.height))
+        menuView = UITableView.init(frame: CGRect.init(x: -(self.view.frame.width*menuSize),
+                                                       y: topBuffer!,
+                                                       width: self.view.frame.width*menuSize,
+                                                       height: (self.view.frame.height-(self.navigationController?.navigationBar.frame.height)!)))
         self.view.addSubview(menuView!)
+        //var button = UIButton.init(frame: CGRect.init(x: menuView?.frame., y: 10, width: <#T##Double#>, height: <#T##Double#>))
         
         // create & add the screen edge gesture recognizer to open the menu
         let edgePanGR = UIScreenEdgePanGestureRecognizer(target: self,
@@ -83,6 +89,8 @@ class MapViewController: UIViewController {
         }
         
         mapView.delegate = self
+        
+        //mapboxRoute()
     }
     
     @IBAction func signOutPressed(_ sender: UIButton) {
@@ -104,7 +112,9 @@ class MapViewController: UIViewController {
     @IBAction func getLocationPressed(_ sender: Any) {
         
         //let userId = appDelegate.user?.uid
-        let userId = "BKGE9xrtP5V6QwWYirRF3Rxpkdv2" //change this hard code later
+        // Renee: BbQD2VoTHrQ4XszHJswrnZ3MeMk1
+        // Nancy: BKGE9xrtP5V6QwWYirRF3Rxpkdv2
+        let userId = "BbQD2VoTHrQ4XszHJswrnZ3MeMk1" //change this hard code later
         
         ref.child("users").child(userId).child("coord").observeSingleEvent(of: .value, with: { (snapshot) in
             // Get user value
@@ -134,7 +144,7 @@ extension MapViewController: MGLMapViewDelegate {
                 name: "White House"
             ),
             ]
-        let options = RouteOptions(waypoints: waypoints, profileIdentifier: MBDirectionsProfileIdentifierAutomobile)
+        let options = RouteOptions(waypoints: waypoints, profileIdentifier: MBDirectionsProfileIdentifier.automobile)
         options.includesSteps = true
         
         _ = directions.calculate(options) { (waypoints, routes, error) in
@@ -161,8 +171,10 @@ extension MapViewController: MGLMapViewDelegate {
                     print("— \(formattedDistance) —")
                 }
                 
+                let viewController = NavigationUI.routeViewController(for: route, directions: self.directions)
+                self.present(viewController, animated: true, completion: nil)
                 
-                
+                /*
                 if route.coordinateCount > 0 {
                     // Convert the route’s coordinates into a polyline.
                     var routeCoordinates = route.coordinates!
@@ -171,7 +183,7 @@ extension MapViewController: MGLMapViewDelegate {
                     // Add the polyline to the map and fit the viewport to the polyline.
                     self.mapView.addAnnotation(routeLine)
                     self.mapView.setVisibleCoordinates(&routeCoordinates, count: route.coordinateCount, edgePadding: .zero, animated: true)
-                }
+                }*/
                 
                 
             }
@@ -235,7 +247,7 @@ extension MapViewController: UIGestureRecognizerDelegate {
     func handleTap(recognizer: UITapGestureRecognizer) {
         // check if menu is expanded & if tap is in correct area
         let point = recognizer.location(in: self.view)
-        if (isMenuOpen == true && point.x >= 300){
+        if (isMenuOpen == true && point.x >= (self.view.frame.width*menuSize)){
             // close the menu
             self.closeMenu()
         }
@@ -245,7 +257,7 @@ extension MapViewController: UIGestureRecognizerDelegate {
     func closeMenu() {
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut,
                        animations: {
-                        self.menuView!.frame.origin.x = -400 // <= replace this magic number
+                        self.menuView!.frame.origin.x = -(self.view.frame.width*self.menuSize)
         },
                        completion: { finished in
                         self.isMenuOpen = false
@@ -256,7 +268,7 @@ extension MapViewController: UIGestureRecognizerDelegate {
     func openMenu() {
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut,
                        animations: {
-                        self.menuView!.frame.origin.x = -100 // <= replace this magic number
+                        self.menuView!.frame.origin.x = CGPoint.zero.x
         },
                        completion: { finished in
                         self.isMenuOpen = true

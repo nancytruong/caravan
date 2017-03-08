@@ -119,7 +119,8 @@ open class Geocoder: NSObject {
      
      To use this object, a Mapbox [access token](https://www.mapbox.com/help/define-access-token/) should be specified in the `MGLMapboxAccessToken` key in the main application bundle’s Info.plist.
      */
-    open static let sharedGeocoder = Geocoder(accessToken: nil)
+    @objc(sharedGeocoder)
+    open static let shared = Geocoder(accessToken: nil)
     
     /// The API endpoint to request the geocodes from.
     internal var apiEndpoint: URL
@@ -169,6 +170,7 @@ open class Geocoder: NSObject {
      - parameter completionHandler: The closure (block) to call with the resulting placemarks. This closure is executed on the application’s main thread.
      - returns: The data task used to perform the HTTP request. If, while waiting for the completion handler to execute, you no longer want the resulting placemarks, cancel this task.
      */
+    @objc(geocodeWithOptions:completionHandler:)
     open func geocode(_ options: GeocodeOptions, completionHandler: @escaping CompletionHandler) -> URLSessionDataTask {
         let url = urlForGeocoding(options)
         let task = dataTaskWithURL(url, completionHandler: { (json) in

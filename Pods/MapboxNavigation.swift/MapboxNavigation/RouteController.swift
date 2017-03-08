@@ -39,7 +39,7 @@ open class RouteController: NSObject {
     }
     
     deinit {
-        suspend()
+        suspendLocationUpdates()
     }
     
     /*
@@ -55,7 +55,7 @@ open class RouteController: NSObject {
     /*
      Stops monitoring users location along route.
      */
-    public func suspend() {
+    public func suspendLocationUpdates() {
         locationManager.stopUpdatingLocation()
         locationManager.stopUpdatingHeading()
     }
@@ -72,7 +72,7 @@ extension RouteController: CLLocationManagerDelegate {
         
         guard routeProgress.currentLegProgress.alertUserLevel != .arrive else {
             // Don't advance nor check progress if the user has arrived at their destination
-            suspend()
+            suspendLocationUpdates()
             NotificationCenter.default.post(name: RouteControllerProgressDidChange, object: self, userInfo: [
                 RouteControllerProgressDidChangeNotificationProgressKey: routeProgress,
                 RouteControllerProgressDidChangeNotificationLocationKey: location,
@@ -122,17 +122,25 @@ extension RouteController: CLLocationManagerDelegate {
         let userSnapToStepDistanceFromManeuver = distance(along: routeProgress.currentLegProgress.currentStep.coordinates!, from: location.coordinate)
         let secondsToEndOfStep = userSnapToStepDistanceFromManeuver / location.speed
         var courseMatchesManeuverFinalHeading = false
-        var isFirstAlertForStep = false
         
         // Bearings need to normalized so when the `finalHeading` is 359 and the user heading is 1,
         // we count this as within the `RouteControllerMaximumAllowedDegreeOffsetForTurnCompletion`
         if let finalHeading = routeProgress.currentLegProgress.upComingStep?.finalHeading {
             let finalHeadingNormalized = wrap(finalHeading, min: 0, max: 360)
             let userHeadingNormalized = wrap(location.course, min: 0, max: 360)
-            courseMatchesManeuverFinalHeading = smallestAngle(alpha: finalHeadingNormalized, beta: userHeadingNormalized) <= RouteControllerMaximumAllowedDegreeOffsetForTurnCompletion
+            courseMatchesManeuverFinalHeading = differenceBetweenAngles(finalHeadingNormalized, userHeadingNormalized) <= RouteControllerMaximumAllowedDegreeOffsetForTurnCompletion
         }
-        
-        if userSnapToStepDistanceFromManeuver <= RouteControllerManeuverZoneRadius {
+
+        // When departing, `userSnapToStepDistanceFromManeuver` is most often less than `RouteControllerManeuverZoneRadius`
+        // since the user will most often be at the beginning of the route, in the maneuver zone
+        if alertLevel == .depart && userSnapToStepDistanceFromManeuver <= RouteControllerManeuverZoneRadius {
+            // If the user is close to the maneuver location,
+            // don't give a depature instruction.
+            // Instead, give a `.high` alert.
+            if secondsToEndOfStep <= RouteControllerHighAlertInterval {
+                alertLevel = .high
+            }
+        } else if userSnapToStepDistanceFromManeuver <= RouteControllerManeuverZoneRadius {
             // Use the currentStep if there is not a next step
             // This occurs when arriving
             let step = routeProgress.currentLegProgress.upComingStep?.maneuverLocation ?? routeProgress.currentLegProgress.currentStep.maneuverLocation
@@ -159,7 +167,6 @@ extension RouteController: CLLocationManagerDelegate {
                 let userSnapToStepDistanceFromManeuver = distance(along: routeProgress.currentLegProgress.currentStep.coordinates!, from: location.coordinate)
                 let secondsToEndOfStep = userSnapToStepDistanceFromManeuver / location.speed
                 alertLevel = secondsToEndOfStep <= RouteControllerMediumAlertInterval ? .medium : .low
-                isFirstAlertForStep = true
             }
         } else if secondsToEndOfStep <= RouteControllerHighAlertInterval && routeProgress.currentLegProgress.currentStep.distance > RouteControllerMinimumDistanceForHighAlert {
             alertLevel = .high
@@ -179,8 +186,7 @@ extension RouteController: CLLocationManagerDelegate {
             
             NotificationCenter.default.post(name: RouteControllerAlertLevelDidChange, object: self, userInfo: [
                 RouteControllerAlertLevelDidChangeNotificationRouteProgressKey: routeProgress,
-                RouteControllerAlertLevelDidChangeNotificationDistanceToEndOfManeuverKey: userDistance,
-                RouteControllerProgressDidChangeNotificationIsFirstAlertForStepKey: isFirstAlertForStep
+                RouteControllerAlertLevelDidChangeNotificationDistanceToEndOfManeuverKey: userDistance
                 ])
         }
     }

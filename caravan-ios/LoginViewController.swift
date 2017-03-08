@@ -57,9 +57,7 @@ class LoginViewController: UIViewController {
                                         let appDelegate = UIApplication.shared.delegate as! AppDelegate
                                         appDelegate.user = user
                                         if (error != nil) {
-                                            print((error?.localizedDescription)! + " ugh")
                                             self.errorLabel.textColor = UIColor.red
-                                            //self.errorLabel.text = "ugh"
                                             self.errorLabel.text = error?.localizedDescription
                                         } else {
                                             self.performSegue(withIdentifier: "loginToMapView", sender: self)

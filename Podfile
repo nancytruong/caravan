@@ -4,15 +4,17 @@
 target 'caravan-ios' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
-
+  
   # Pods for caravan-ios
   pod 'Firebase/Core'
   pod 'Firebase/Database'
   pod 'Firebase/Auth'
   pod 'Mapbox-iOS-SDK', '~> 3.4.1'
-  pod 'MapboxDirections.swift', :git => 'https://github.com/mapbox/MapboxDirections.swift.git', :branch => 'swift3'
-  pod 'MapboxNavigation.swift', :git => 'https://github.com/mapbox/MapboxNavigation.swift.git', :tag => 'v0.0.4'
-  pod 'MapboxGeocoder.swift', :git => 'https://github.com/mapbox/MapboxGeocoder.swift.git', :branch => 'swift3'
+  pod 'MapboxGeocoder.swift', '~> 0.6'
+  pod 'MapboxDirections.swift', '~> 0.8'
+  pod 'MapboxNavigation.swift', :git => 'https://github.com/mapbox/MapboxNavigation.swift.git', :commit => '022ed3f7fc7e77265b7cd9950a0727ff72241b62'
+  pod 'MapboxNavigationUI.swift', :git => 'https://github.com/mapbox/MapboxNavigation.swift.git'
+  pod 'OSRMTextInstructions', :git => 'https://github.com/Project-OSRM/osrm-text-instructions.swift.git'
 
   target 'caravan-iosTests' do
     inherit! :search_paths
