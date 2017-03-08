@@ -9,11 +9,13 @@
 /* Begin PBXBuildFile section */
 		0EAD1D381E461B2EF21C167C /* Pods_caravan_iosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01EF70F2CFFD6AAE9BFAF54A /* Pods_caravan_iosTests.framework */; };
 		7B1110A10D1B6864D70F8021 /* Pods_caravan_iosUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4F3605FC2CEDC4564A409B5 /* Pods_caravan_iosUITests.framework */; };
+		B92E18291E5D073700934506 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92E18281E5D073700934506 /* LoginViewController.swift */; };
 		B93F00E11E396A6600ACFB48 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B93F00E01E396A6600ACFB48 /* GoogleService-Info.plist */; };
 		B93F00E21E396A6600ACFB48 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B93F00E01E396A6600ACFB48 /* GoogleService-Info.plist */; };
 		B93F00E31E396A6600ACFB48 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B93F00E01E396A6600ACFB48 /* GoogleService-Info.plist */; };
+		B99777871E55228A0047149B /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99777861E55228A0047149B /* SearchViewController.swift */; };
 		B9B91EEC1E39664800FBFEAD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B91EEB1E39664800FBFEAD /* AppDelegate.swift */; };
-		B9B91EEE1E39664800FBFEAD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B91EED1E39664800FBFEAD /* ViewController.swift */; };
+		B9B91EEE1E39664800FBFEAD /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B91EED1E39664800FBFEAD /* MapViewController.swift */; };
 		B9B91EF11E39664800FBFEAD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9B91EEF1E39664800FBFEAD /* Main.storyboard */; };
 		B9B91EF31E39664800FBFEAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9B91EF21E39664800FBFEAD /* Assets.xcassets */; };
 		B9B91EF61E39664800FBFEAD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9B91EF41E39664800FBFEAD /* LaunchScreen.storyboard */; };
@@ -46,10 +48,12 @@
 		7ED97C7732B3A892FFB05C70 /* Pods-caravan-iosUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-caravan-iosUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-caravan-iosUITests/Pods-caravan-iosUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		9E9DA8F00FD3B90E0C7A0D27 /* Pods-caravan-iosUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-caravan-iosUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-caravan-iosUITests/Pods-caravan-iosUITests.release.xcconfig"; sourceTree = "<group>"; };
 		B4F3605FC2CEDC4564A409B5 /* Pods_caravan_iosUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_caravan_iosUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B92E18281E5D073700934506 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B93F00E01E396A6600ACFB48 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B99777861E55228A0047149B /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		B9B91EE81E39664800FBFEAD /* caravan-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "caravan-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9B91EEB1E39664800FBFEAD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B9B91EED1E39664800FBFEAD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		B9B91EED1E39664800FBFEAD /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		B9B91EF01E39664800FBFEAD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B9B91EF21E39664800FBFEAD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B9B91EF51E39664800FBFEAD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -132,7 +136,9 @@
 			isa = PBXGroup;
 			children = (
 				B9B91EEB1E39664800FBFEAD /* AppDelegate.swift */,
-				B9B91EED1E39664800FBFEAD /* ViewController.swift */,
+				B9B91EED1E39664800FBFEAD /* MapViewController.swift */,
+				B99777861E55228A0047149B /* SearchViewController.swift */,
+				B92E18281E5D073700934506 /* LoginViewController.swift */,
 				B9B91EEF1E39664800FBFEAD /* Main.storyboard */,
 				B9B91EF21E39664800FBFEAD /* Assets.xcassets */,
 				B9B91EF41E39664800FBFEAD /* LaunchScreen.storyboard */,
@@ -457,7 +463,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B9B91EEE1E39664800FBFEAD /* ViewController.swift in Sources */,
+				B92E18291E5D073700934506 /* LoginViewController.swift in Sources */,
+				B9B91EEE1E39664800FBFEAD /* MapViewController.swift in Sources */,
+				B99777871E55228A0047149B /* SearchViewController.swift in Sources */,
 				B9B91EEC1E39664800FBFEAD /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

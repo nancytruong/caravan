@@ -8,6 +8,7 @@ target 'caravan-ios' do
   # Pods for caravan-ios
   pod 'Firebase/Core'
   pod 'Firebase/Database'
+  pod 'Firebase/Auth'
   pod 'Mapbox-iOS-SDK', '~> 3.4.1'
   pod 'MapboxDirections.swift', :git => 'https://github.com/mapbox/MapboxDirections.swift.git', :branch => 'swift3'
   pod 'MapboxNavigation.swift', :git => 'https://github.com/mapbox/MapboxNavigation.swift.git', :tag => 'v0.0.4'
