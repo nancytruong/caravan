@@ -20,6 +20,8 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         errorLabel.textColor = UIColor.white
         // Do any additional setup after loading the view.
+        
+        passwordTextField.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -78,4 +80,13 @@ class LoginViewController: UIViewController {
     }
     */
 
+}
+
+extension LoginViewController: UITextFieldDelegate {
+    
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return true
+    }
 }

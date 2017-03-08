@@ -36,6 +36,8 @@ class MapViewController: UIViewController {
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
+    var panGR : UIPanGestureRecognizer?
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -52,7 +54,6 @@ class MapViewController: UIViewController {
         
         // set up menu
         menuView = UITableView.init(frame: CGRect.init(x: -400, y: 0, width: 400, height: self.view.frame.height))
-        //menuView?.isUserInteractionEnabled = true
         self.view.addSubview(menuView!)
         
         // create & add the screen edge gesture recognizer to open the menu
@@ -60,11 +61,6 @@ class MapViewController: UIViewController {
                                                          action: #selector(self.handleEdgePan(recognizer:)))
         edgePanGR.edges = .left
         self.view.addGestureRecognizer(edgePanGR)
-        
-        // create & add the pan gesture recognizer to open the menu
-        let panGR = UIPanGestureRecognizer(target: self,
-                                           action: #selector(self.handlePan(recognizer:)))
-        self.view.addGestureRecognizer(panGR)
         
         //create & add the tap gesutre recognizer to close the menu
         let tapGR = UITapGestureRecognizer(target: self,
@@ -107,9 +103,10 @@ class MapViewController: UIViewController {
     
     @IBAction func getLocationPressed(_ sender: Any) {
         
-        let userId = appDelegate.user?.uid
+        //let userId = appDelegate.user?.uid
+        let userId = "BKGE9xrtP5V6QwWYirRF3Rxpkdv2" //change this hard code later
         
-        ref.child("users").child(userId!).child("coord").observeSingleEvent(of: .value, with: { (snapshot) in
+        ref.child("users").child(userId).child("coord").observeSingleEvent(of: .value, with: { (snapshot) in
             // Get user value
             let value = snapshot.value as? NSDictionary
             let longitude = value?["longitude"] as? Float ?? 0.0
@@ -213,14 +210,23 @@ extension MapViewController: CLLocationManagerDelegate {
     }
 }
 
-extension MapViewController: UIGestureRecognizerDelegate {
-    // GESTURE RECOGNIZERSs
+extension UIPanGestureRecognizer {
     
-    func handlePan(recognizer: UIPanGestureRecognizer) {
-        // close animation of menu
-        self.closeMenu()
+    func isLeft(theViewYouArePassing: UIView) -> Bool {
+        let v : CGPoint = velocity(in: theViewYouArePassing)
+        if v.x > 0 {
+            print("Gesture went right")
+            return false
+        } else {
+            print("Gesture went left")
+            return true
+        }
     }
+}
 
+extension MapViewController: UIGestureRecognizerDelegate {
+    // GESTURE RECOGNIZERS
+    
     func handleEdgePan(recognizer: UIScreenEdgePanGestureRecognizer) {
         // open animation of menu
         self.openMenu()
