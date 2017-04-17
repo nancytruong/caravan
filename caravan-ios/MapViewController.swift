@@ -128,6 +128,20 @@ class MapViewController: UIViewController {
         }
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "showSearchView" {
+            let controller = segue.destination as! SearchViewController
+            
+            controller.ref = ref
+            controller.appDelegate = appDelegate
+            controller.locationManager = locationManager
+            controller.directions = directions
+            controller.geocoder = geocoder
+        }
+        
+    }
+    
 }
 
 extension MapViewController: MGLMapViewDelegate {

@@ -12,18 +12,23 @@ import MapboxDirections
 import MapboxNavigation
 import MapboxNavigationUI
 import MapboxGeocoder
+import FirebaseDatabase
+import FirebaseAuth
 
 class SearchViewController: UIViewController {
     
-    let geocoder = Geocoder.shared
-    let directions = Directions.shared
+    var geocoder: Geocoder!
+    var directions: Directions!
     var searchResults: [GeocodedPlacemark] = []
     
-    let locationManager = CLLocationManager()
+    var locationManager: CLLocationManager!
     var locValue: CLLocationCoordinate2D!
     
     @IBOutlet weak var searchText: UITextField!
     @IBOutlet weak var tableView: UITableView!
+    
+    var ref: FIRDatabaseReference!
+    var appDelegate: AppDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -123,6 +128,63 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
                 print("Error calculating directions: \(error!)")
                 return
             }
+            
+            //sending route object to firebase
+            print("on route now...")
+            var newDict = Dictionary<String, Any>()
+            var legDict = Dictionary<String, Any>()
+            if let route = routes?.first, let leg = route.legs.first {
+                
+                /*
+                for leg in route.legs {
+                    print(leg.distance)
+                    print(leg.name)
+                    print(leg.expectedTravelTime)
+                    print(leg.description)
+                    print(leg.destination)
+                    print(leg.profileIdentifier)
+                    print(leg.source)
+                    
+                }
+                */
+                /*
+                print("Route via \(leg):")
+                
+                let distanceFormatter = LengthFormatter()
+                let formattedDistance = distanceFormatter.string(fromMeters: route.distance)
+                
+                let travelTimeFormatter = DateComponentsFormatter()
+                travelTimeFormatter.unitsStyle = .short
+                let formattedTravelTime = travelTimeFormatter.string(from: route.expectedTravelTime)
+                
+                print("Distance: \(formattedDistance); ETA: \(formattedTravelTime!)")
+                
+                for step in leg.steps {
+                    print("\(step.instructions)")
+                    let formattedDistance = distanceFormatter.string(fromMeters: step.distance)
+                    print("— \(formattedDistance) —")
+                }
+                 */
+                
+                newDict["duration"] = route.expectedTravelTime
+                newDict["distance"] = route.distance
+                newDict["profileIdentifier"] = route.profileIdentifier
+                
+                var coordinateArray: [[CLLocationDegrees]] = []
+                for coord in route.coordinates! {
+                    coordinateArray.append([coord.latitude, coord.longitude])
+                }
+                newDict["geometry"] = coordinateArray
+                
+                print(newDict)
+            }
+            
+            let userId = self.appDelegate.user?.uid
+            //self.ref.child("users").child(userId!).child("route").setValue("hi")
+            self.ref.child("users").child(userId!).child("route").setValue(newDict)
+            
+            
+            
             let viewController = NavigationUI.routeViewController(for: (routes?[0])!, directions: self.directions)
             self.present(viewController, animated: true, completion: nil)
         }
