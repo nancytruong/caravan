@@ -10,7 +10,6 @@ import UIKit
 import Mapbox
 import MapboxDirections
 import MapboxNavigation
-import MapboxNavigationUI
 import MapboxGeocoder
 import FirebaseDatabase
 import FirebaseAuth
@@ -135,18 +134,24 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
             var legDict = Dictionary<String, Any>()
             if let route = routes?.first, let leg = route.legs.first {
                 
-                /*
+                
                 for leg in route.legs {
-                    print(leg.distance)
-                    print(leg.name)
-                    print(leg.expectedTravelTime)
-                    print(leg.description)
-                    print(leg.destination)
-                    print(leg.profileIdentifier)
-                    print(leg.source)
+                    print("distance: ", leg.distance)
+                    //legDict["distance"] = leg.distance
+                    print("name: ", leg.name)
+                    print("expectedTravelTime: ", leg.expectedTravelTime)
+                    print("description: ", leg.description)
+                    print("destination: ", leg.destination)
+                    print("pi: ", leg.profileIdentifier)
+                    print("source.name: ", leg.source.name)
                     
+                    
+                    
+                    //RouteLeg
                 }
-                */
+                
+                
+ 
                 /*
                 print("Route via \(leg):")
                 

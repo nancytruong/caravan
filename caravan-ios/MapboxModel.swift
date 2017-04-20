@@ -10,7 +10,6 @@ import Foundation
 import Mapbox
 import MapboxDirections
 import MapboxNavigation
-import MapboxNavigationUI
 import FirebaseDatabase
 import FirebaseAuth
 import MapboxGeocoder

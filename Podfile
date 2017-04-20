@@ -9,12 +9,12 @@ target 'caravan-ios' do
   pod 'Firebase/Core'
   pod 'Firebase/Database'
   pod 'Firebase/Auth'
-  pod 'Mapbox-iOS-SDK', '~> 3.4.1'
+  pod 'Mapbox-iOS-SDK', '~> 3.5'
   pod 'MapboxGeocoder.swift', '~> 0.6'
   pod 'MapboxDirections.swift', '~> 0.8'
-  pod 'MapboxNavigation.swift', :git => 'https://github.com/mapbox/MapboxNavigation.swift.git', :commit => '022ed3f7fc7e77265b7cd9950a0727ff72241b62'
-  pod 'MapboxNavigationUI.swift', :git => 'https://github.com/mapbox/MapboxNavigation.swift.git'
-  pod 'OSRMTextInstructions', :git => 'https://github.com/Project-OSRM/osrm-text-instructions.swift.git'
+  pod 'MapboxNavigation', '~> 0.2'
+  pod 'MapboxCoreNavigation', '~> 0.2'
+  #pod 'OSRMTextInstructions', :git => 'https://github.com/Project-OSRM/osrm-text-instructions.swift.git'
 
   target 'caravan-iosTests' do
     inherit! :search_paths
