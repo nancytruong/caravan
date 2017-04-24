@@ -182,7 +182,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
                         stepDict["maneuverDirection"] = step.maneuverDirection?.description
                         
                         for intersection in step.intersections! {
-                            //print("approach lanes")
+                            
                             if let lanes = intersection.approachLanes {
                                 for lane in lanes {
                                     approachLanes.append(lane.indications.description)
@@ -191,19 +191,31 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
                             intersectionDict["approachLanes"] = approachLanes
                             approachLanes.removeAll()
                             intersectionDict["headings"] = intersection.headings //[CLLocationDirection]
-                            /*
-                            print("usable approach lanes")
-                            print(intersection.usableApproachLanes) // IndexSet? and figure out default optional value if nil
-                            print("outlet indexes")
-                            print(intersection.outletIndexes) //IndexSet
-                            */
-                            //IndexSet
                             
+                            var output: [Int] = [];
+                            var args = intersection.usableApproachLanes?.makeIterator();
+                            while let arg = args?.next() {
+                                output.append(arg)
+                            }
+                            
+                            if output.count > 0 {
+                                intersectionDict["usableApproachLanes"] = output
+                            }
+                            else {
+                                intersectionDict["usableApproachLanes"] = [-1]
+                            }
+                            
+                            var output2: [Int] = [];
+                            var args2 = intersection.outletIndexes.makeIterator();
+                            while let arg = args2.next() {
+                                output2.append(arg)
+                            }
+                            intersectionDict["outletIndexes"] = output2
+
                             intersectionsDict.append(intersectionDict)
                             intersectionDict.removeAll()
                         }
                         stepDict["intersections"] = intersectionsDict
-                        //Intersection
                         
                         stepsDict.append(stepDict)
                         stepDict.removeAll()
@@ -213,7 +225,6 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
                     legsDict.append(legDict)
                     legDict.removeAll()
                     
-                    //RouteStep
                 }
                 
                 newDict["duration"] = route.expectedTravelTime
@@ -228,7 +239,6 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
                 
                 newDict["legs"] = legsDict
                 
-                //print(newDict)
             }
             
             let userId = self.appDelegate.user?.uid
