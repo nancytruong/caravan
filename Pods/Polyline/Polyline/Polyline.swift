@@ -22,6 +22,7 @@
 
 import Foundation
 import CoreLocation
+import MapKit
 
 // MARK: - Public Classes -
 
@@ -53,6 +54,16 @@ public struct Polyline {
     public var locations: [CLLocation]? {
         return self.coordinates.map(toLocations)
     }
+    
+    #if !os(watchOS)
+    /// Convert polyline to MKPolyline to use with MapKit (nil if polyline cannot be decoded)
+    @available(tvOS 9.2, *)
+    public var mkPolyline: MKPolyline? {
+        guard let coordinates = self.coordinates else { return nil }
+        let mkPolyline = MKPolyline(coordinates: coordinates, count: coordinates.count)
+        return mkPolyline
+    }
+    #endif
     
     // MARK: - Public Methods -
     
@@ -157,7 +168,7 @@ public func decodePolyline(_ encodedPolyline: String, precision: Double = 1e5) -
     
     let data = encodedPolyline.data(using: String.Encoding.utf8)!
     
-    let byteArray = unsafeBitCast((data as NSData).bytes, to: UnsafePointer<Int8>.self)
+    let byteArray = (data as NSData).bytes.assumingMemoryBound(to: Int8.self)
     let length = Int(data.count)
     var position = Int(0)
     

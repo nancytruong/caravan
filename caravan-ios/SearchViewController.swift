@@ -10,20 +10,24 @@ import UIKit
 import Mapbox
 import MapboxDirections
 import MapboxNavigation
-import MapboxNavigationUI
 import MapboxGeocoder
+import FirebaseDatabase
+import FirebaseAuth
 
 class SearchViewController: UIViewController {
     
-    let geocoder = Geocoder.shared
-    let directions = Directions.shared
+    var geocoder: Geocoder!
+    var directions: Directions!
     var searchResults: [GeocodedPlacemark] = []
     
-    let locationManager = CLLocationManager()
+    var locationManager: CLLocationManager!
     var locValue: CLLocationCoordinate2D!
     
     @IBOutlet weak var searchText: UITextField!
     @IBOutlet weak var tableView: UITableView!
+    
+    var ref: FIRDatabaseReference!
+    var appDelegate: AppDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -123,6 +127,124 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
                 print("Error calculating directions: \(error!)")
                 return
             }
+            
+            //sending route object to firebase
+            var newDict = Dictionary<String, Any>()
+            var stepsDict = [Dictionary<String, Any>]()
+            var legsDict = [Dictionary<String, Any>]()
+            var intersectionsDict = [Dictionary<String, Any>]()
+            
+            var legDict = Dictionary<String, Any>()
+            var legSourceDict = Dictionary<String, Any>()
+            var legDestinationDict = Dictionary<String, Any>()
+            var stepDict = Dictionary<String, Any>()
+            var intersectionDict = Dictionary<String, Any>()
+            
+            var approachLanes: [String] = []
+            
+            if let route = routes?.first, let leg = route.legs.first {
+                for leg in route.legs {
+                    legDict["distance"] = leg.distance
+                    legDict["name"] = leg.name
+                    legDict["expectedTravelTime"] = leg.expectedTravelTime
+                    legDict["description"] = leg.description
+    
+                    legDict["profileIdentifier"] = leg.profileIdentifier
+
+                    legSourceDict["name"] = leg.source.name
+                    legSourceDict["location"] = [leg.source.coordinate.latitude, leg.source.coordinate.longitude]
+                    legDestinationDict["name"] = leg.destination.name
+                    legDestinationDict["location"] = [leg.destination.coordinate.latitude, leg.destination.coordinate.longitude]
+                    
+                    legDict["source"] = legSourceDict
+                    legDict["destination"] = legDestinationDict
+                    
+                    for step in leg.steps {
+                        stepDict["codes"] = step.codes ?? [""]
+                        stepDict["coordinateCount"] = step.coordinateCount
+                        
+                        var temp: [[CLLocationDegrees]] = []
+                        for coord in step.coordinates! {
+                            temp.append([coord.latitude, coord.longitude])
+                        }
+                        stepDict["coordinates"] = temp
+                        
+                        stepDict["description"] = step.description
+                        stepDict["destinationCodes"] = step.destinationCodes ?? [""]
+                        stepDict["destinations"] = step.destinations ?? [""]
+                        stepDict["distance"] = step.distance
+                        
+                        stepDict["instructions"] = step.instructions
+                        stepDict["finalHeading"] = step.finalHeading
+                        stepDict["maneuverLocation"] = [step.maneuverLocation.latitude, step.maneuverLocation.longitude]
+                        
+                        stepDict["maneuverType"] = step.maneuverType?.description
+                        stepDict["maneuverDirection"] = step.maneuverDirection?.description
+                        
+                        for intersection in step.intersections! {
+                            
+                            if let lanes = intersection.approachLanes {
+                                for lane in lanes {
+                                    approachLanes.append(lane.indications.description)
+                                }
+                            }
+                            intersectionDict["approachLanes"] = approachLanes
+                            approachLanes.removeAll()
+                            intersectionDict["headings"] = intersection.headings //[CLLocationDirection]
+                            
+                            var output: [Int] = [];
+                            var args = intersection.usableApproachLanes?.makeIterator();
+                            while let arg = args?.next() {
+                                output.append(arg)
+                            }
+                            
+                            if output.count > 0 {
+                                intersectionDict["usableApproachLanes"] = output
+                            }
+                            else {
+                                intersectionDict["usableApproachLanes"] = [-1]
+                            }
+                            
+                            var output2: [Int] = [];
+                            var args2 = intersection.outletIndexes.makeIterator();
+                            while let arg = args2.next() {
+                                output2.append(arg)
+                            }
+                            intersectionDict["outletIndexes"] = output2
+
+                            intersectionsDict.append(intersectionDict)
+                            intersectionDict.removeAll()
+                        }
+                        stepDict["intersections"] = intersectionsDict
+                        
+                        stepsDict.append(stepDict)
+                        stepDict.removeAll()
+                    }
+                    legDict["steps"] = stepsDict
+                    stepsDict.removeAll()
+                    legsDict.append(legDict)
+                    legDict.removeAll()
+                    
+                }
+                
+                newDict["duration"] = route.expectedTravelTime
+                newDict["distance"] = route.distance
+                newDict["profileIdentifier"] = route.profileIdentifier
+                
+                var coordinateArray: [[CLLocationDegrees]] = []
+                for coord in route.coordinates! {
+                    coordinateArray.append([coord.latitude, coord.longitude])
+                }
+                newDict["geometry"] = coordinateArray
+                
+                newDict["legs"] = legsDict
+                
+            }
+            
+            let userId = self.appDelegate.user?.uid
+            self.ref.child("users").child(userId!).child("route").setValue(newDict)
+            
+        
             let viewController = NavigationUI.routeViewController(for: (routes?[0])!, directions: self.directions)
             self.present(viewController, animated: true, completion: nil)
         }

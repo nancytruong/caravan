@@ -3,7 +3,9 @@
 [📱&nbsp;![iOS Build Status](https://www.bitrise.io/app/6cae401ec4c1d406.svg?token=MJnXK0c2x2tmTnmHSPtcFA&branch=master)](https://www.bitrise.io/app/6cae401ec4c1d406) &nbsp;&nbsp;&nbsp;
 [🖥💻&nbsp;![macOS Build Status](https://www.bitrise.io/app/8413a6e577d6aa9a.svg?token=N1agv0mw75SOE_SykliueQ&branch=master)](https://www.bitrise.io/app/8413a6e577d6aa9a) &nbsp;&nbsp;&nbsp;
 [📺&nbsp;![tvOS Build Status](https://www.bitrise.io/app/0a8b56775b94f3e3.svg?token=UgLmHNS_ALJLjJN8ebd4hA&branch=master)](https://www.bitrise.io/app/0a8b56775b94f3e3) &nbsp;&nbsp;&nbsp;
-[⌚️&nbsp;![watchOS Build Status](https://www.bitrise.io/app/b2a0878fa4bddab4.svg?token=4wjvK6K92dNK2bOCuV9-Yg&branch=master)](https://www.bitrise.io/app/b2a0878fa4bddab4)
+[⌚️&nbsp;![watchOS Build Status](https://www.bitrise.io/app/b2a0878fa4bddab4.svg?token=4wjvK6K92dNK2bOCuV9-Yg&branch=master)](https://www.bitrise.io/app/b2a0878fa4bddab4) &nbsp;&nbsp;&nbsp;
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) &nbsp;&nbsp;&nbsp;
+[![CocoaPods](https://img.shields.io/cocoapods/v/MapboxGeocoder.swift.svg)](http://cocoadocs.org/docsets/MapboxGeocoder.swift/)
 
 MapboxGeocoder.swift makes it easy to connect your iOS, macOS, tvOS, or watchOS application to the [Mapbox Geocoding API](https://www.mapbox.com/geocoding/). MapboxGeocoder.swift exposes the power of the [Carmen](https://github.com/mapbox/carmen) geocoder through a simple API similar to Core Location’s CLGeocoder.
 
@@ -14,16 +16,16 @@ MapboxGeocoder.swift pairs well with [MapboxDirections.swift](https://github.com
 Specify the following dependency in your [Carthage](https://github.com/Carthage/Carthage/) Cartfile:
 
 ```cartfile
-github "Mapbox/MapboxGeocoder.swift" ~> 0.6
+github "mapbox/MapboxGeocoder.swift" ~> 0.6
 ```
 
 Or in your [CocoaPods](http://cocoapods.org/) Podfile:
 
 ```podspec
-pod 'MapboxGeocoder.swift', :git => 'https://github.com/mapbox/MapboxGeocoder.swift.git', '~> 0.6'
+pod 'MapboxGeocoder.swift', '~> 0.6'
 ```
 
-Then `import MapboxDirections` or `@import MapboxDirections;`.
+Then `import MapboxGeocoder` or `@import MapboxGeocoder;`.
 
 v0.5.2 is the last release of MapboxGeocoder.swift written in Swift 2.3. The `swift2.3` branch corresponds to this release, plus any critical bug fixes that have been applied since. All subsequent releases will be based on the `master` branch, which is written in Swift 3. The Swift examples below are written in Swift 3; see the `swift2.3` branch’s readme for Swift 2.3 examples.
 

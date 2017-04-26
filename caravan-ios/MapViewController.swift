@@ -10,7 +10,6 @@ import UIKit
 import Mapbox
 import MapboxDirections
 import MapboxNavigation
-import MapboxNavigationUI
 import FirebaseDatabase
 import FirebaseAuth
 import MapboxGeocoder
@@ -126,6 +125,20 @@ class MapViewController: UIViewController {
         }) { (error) in
             print(error.localizedDescription)
         }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "showSearchView" {
+            let controller = segue.destination as! SearchViewController
+            
+            controller.ref = ref
+            controller.appDelegate = appDelegate
+            controller.locationManager = locationManager
+            controller.directions = directions
+            controller.geocoder = geocoder
+        }
+        
     }
     
 }

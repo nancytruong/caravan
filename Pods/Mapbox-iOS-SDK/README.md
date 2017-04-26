@@ -1,6 +1,6 @@
 # [Mapbox iOS SDK](https://www.mapbox.com/ios-sdk/)
 
-The Mapbox iOS SDK is an open-source framework for embedding interactive map views with scalable, customizable vector maps into Cocoa Touch applications on iOS 7.0 and above using Objective-C, Swift, or Interface Builder. It takes stylesheets that conform to the [Mapbox Style Specification](https://www.mapbox.com/mapbox-gl-style-spec/), applies them to vector tiles that conform to the [Mapbox Vector Tile Specification](https://www.mapbox.com/developers/vector-tiles/), and renders them using OpenGL.
+The Mapbox iOS SDK is an open-source framework for embedding interactive map views with scalable, customizable vector maps into Cocoa Touch applications on iOS 8.0 and above using Objective-C, Swift, or Interface Builder. It takes stylesheets that conform to the [Mapbox Style Specification](https://www.mapbox.com/mapbox-gl-style-spec/), applies them to vector tiles that conform to the [Mapbox Vector Tile Specification](https://www.mapbox.com/developers/vector-tiles/), and renders them using OpenGL.
 
 For more information, check out the [Mapbox iOS SDK homepage](https://www.mapbox.com/ios-sdk/) and the [full changelog](https://github.com/mapbox/mapbox-gl-native/blob/master/platform/ios/CHANGELOG.md) online.
 
@@ -15,7 +15,7 @@ Integrating the Mapbox iOS SDK requires Xcode 7.3 or higher.
 
 ### Dynamic framework
 
-This is the recommended workflow for manually integrating the SDK into an application targeting iOS 8 and above:
+This is the recommended workflow for manually integrating the SDK into an application:
 
 1. Open the project editor, select your application target, then go to the General tab. Drag Mapbox.framework from the `dynamic` folder into the “Embedded Binaries” section. (Don’t drag it into the “Linked Frameworks and Libraries” section; Xcode will add it there automatically.) In the sheet that appears, make sure “Copy items if needed” is checked, then click Finish.
 
