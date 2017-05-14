@@ -171,6 +171,9 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
                         }
                         stepDict["coordinates"] = temp
                         
+                        stepDict["geometry"] = ["type": "Point",
+                                                "coordinates": temp]
+                        
                         stepDict["description"] = step.description
                         stepDict["destinationCodes"] = step.destinationCodes ?? [""]
                         stepDict["destinations"] = step.destinations ?? [""]
@@ -240,11 +243,18 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
                 newDict["distance"] = route.distance
                 newDict["profileIdentifier"] = route.profileIdentifier
                 
+                var temp: [[CLLocationDegrees]] = []
+                for coord in route.coordinates! {
+                    temp.append([coord.latitude, coord.longitude])
+                }
+                newDict["coordinates"] = temp
+                
                 var coordinateArray: [[CLLocationDegrees]] = []
                 for coord in route.coordinates! {
                     coordinateArray.append([coord.latitude, coord.longitude])
                 }
-                newDict["geometry"] = coordinateArray
+                newDict["geometry"] = ["type": "Point",
+                                       "coordinates": coordinateArray]
                 
                 newDict["legs"] = legsDict
                 
@@ -267,10 +277,19 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
                 let decoded = try JSONSerialization.jsonObject(with: jsonData, options: [])
                 // here "decoded" is of type `Any`, decoded from JSON data
                 
+                
                 // you can now cast it with the right type
-                if let dictFromJSON = decoded as? [String:Any] {
+                if var dictFromJSON = decoded as? [String:Any] {
                     // use dictFromJSON
-                    let route : Route = Route.init(json: dictFromJSON, waypoints: waypoints! , profileIdentifier: MBDirectionsProfileIdentifier.automobile)
+                    
+                    print("changing the coord in steps")
+                    print(((((dictFromJSON["legs"] as! NSArray)[0] as! [String: Any])["steps"] as! NSArray)[0] as! [String:Any])["coordinates"])
+                    
+                    let newRoute : Route = Route.init(json: dictFromJSON, waypoints: waypoints! , profileIdentifier: MBDirectionsProfileIdentifier.automobile)
+                    //print("COORDS")
+                    //print(newRoute.coordinates ?? "nonee")
+                    let viewController = NavigationUI.routeViewController(for: newRoute, directions: self.directions)
+                    self.present(viewController, animated: true, completion: nil)
                 }
             } catch {
                 print(error.localizedDescription)
@@ -279,8 +298,8 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
             
             
         
-            let viewController = NavigationUI.routeViewController(for: (routes?[0])!, directions: self.directions)
-            self.present(viewController, animated: true, completion: nil)
+            //let viewController = NavigationUI.routeViewController(for: (routes?[0])!, directions: self.directions)
+            //self.present(viewController, animated: true, completion: nil)
         }
         
         //print(cell?.textLabel?.text)
