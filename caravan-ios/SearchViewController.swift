@@ -139,14 +139,16 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
             var legDestinationDict = Dictionary<String, Any>()
             var stepDict = Dictionary<String, Any>()
             var intersectionDict = Dictionary<String, Any>()
+            var maneuverDict = Dictionary<String, Any>()
             
             var approachLanes: [String] = []
             
             if let route = routes?.first, let leg = route.legs.first {
+
                 for leg in route.legs {
                     legDict["distance"] = leg.distance
-                    legDict["name"] = leg.name
-                    legDict["expectedTravelTime"] = leg.expectedTravelTime
+                    legDict["summary"] = leg.name
+                    legDict["duration"] = leg.expectedTravelTime
                     legDict["description"] = leg.description
     
                     legDict["profileIdentifier"] = leg.profileIdentifier
@@ -176,10 +178,15 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
                         
                         stepDict["instructions"] = step.instructions
                         stepDict["finalHeading"] = step.finalHeading
-                        stepDict["maneuverLocation"] = [step.maneuverLocation.latitude, step.maneuverLocation.longitude]
                         
-                        stepDict["maneuverType"] = step.maneuverType?.description
-                        stepDict["maneuverDirection"] = step.maneuverDirection?.description
+                        maneuverDict["location"] = [step.maneuverLocation.latitude, step.maneuverLocation.longitude]
+                        maneuverDict["type"] = step.maneuverType?.description
+                        maneuverDict["modifier"] = step.maneuverDirection?.description
+                        stepDict["maneuver"] = maneuverDict
+                        
+                        stepDict["name"] = step.names?.first ?? ""
+                        stepDict["mode"] = step.transportType?.description
+                      
                         
                         for intersection in step.intersections! {
                             
@@ -190,7 +197,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
                             }
                             intersectionDict["approachLanes"] = approachLanes
                             approachLanes.removeAll()
-                            intersectionDict["headings"] = intersection.headings //[CLLocationDirection]
+                            intersectionDict["bearings"] = intersection.headings //[CLLocationDirection]
                             
                             var output: [Int] = [];
                             var args = intersection.usableApproachLanes?.makeIterator();
@@ -210,8 +217,10 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
                             while let arg = args2.next() {
                                 output2.append(arg)
                             }
-                            intersectionDict["outletIndexes"] = output2
-
+                            intersectionDict["entry"] = output2
+                            
+                            intersectionDict["location"] = [intersection.location.latitude, intersection.location.longitude]
+                            
                             intersectionsDict.append(intersectionDict)
                             intersectionDict.removeAll()
                         }
@@ -241,8 +250,33 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
                 
             }
             
+        
             let userId = self.appDelegate.user?.uid
             self.ref.child("users").child(userId!).child("route").setValue(newDict)
+            
+            
+            
+            
+            //TESTING INITIALIZING ROUTES FROM INFO I HAVE
+            //first, convert route dict "newDict" to json
+            
+            do {
+                let jsonData = try JSONSerialization.data(withJSONObject: newDict, options: .prettyPrinted)
+                // here "jsonData" is the dictionary encoded in JSON data
+                
+                let decoded = try JSONSerialization.jsonObject(with: jsonData, options: [])
+                // here "decoded" is of type `Any`, decoded from JSON data
+                
+                // you can now cast it with the right type
+                if let dictFromJSON = decoded as? [String:Any] {
+                    // use dictFromJSON
+                    let route : Route = Route.init(json: dictFromJSON, waypoints: waypoints! , profileIdentifier: MBDirectionsProfileIdentifier.automobile)
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+            
+            
             
         
             let viewController = NavigationUI.routeViewController(for: (routes?[0])!, directions: self.directions)
