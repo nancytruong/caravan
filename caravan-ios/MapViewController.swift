@@ -27,7 +27,7 @@ class MapViewController: UIViewController {
     let locationManager = CLLocationManager()
     var locValue: CLLocationCoordinate2D!
     
-    var menuView: UIView?
+    var menuView: MenuView?
     var isMenuOpen: Bool = false
     let menuSize: CGFloat = 0.8
     var topBuffer: CGFloat?
@@ -54,12 +54,12 @@ class MapViewController: UIViewController {
         topBuffer = (self.navigationController?.navigationBar.frame.height)! + UIApplication.shared.statusBarFrame.size.height
         
         // set up menu
-        menuView = UITableView.init(frame: CGRect.init(x: -(self.view.frame.width*menuSize),
-                                                       y: topBuffer!,
-                                                       width: self.view.frame.width*menuSize,
-                                                       height: (self.view.frame.height-(self.navigationController?.navigationBar.frame.height)!)))
+        menuView = MenuView(frame: CGRect.init(x: -(self.view.frame.width*menuSize),
+                                               y: 0.0,
+                                               width: self.view.frame.width*menuSize,
+                                               height: (self.view.frame.height)),
+                            delegate: self)
         self.view.addSubview(menuView!)
-        //var button = UIButton.init(frame: CGRect.init(x: menuView?.frame., y: 10, width: <#T##Double#>, height: <#T##Double#>))
         
         // create & add the screen edge gesture recognizer to open the menu
         let edgePanGR = UIScreenEdgePanGestureRecognizer(target: self,
@@ -90,17 +90,6 @@ class MapViewController: UIViewController {
         mapView.delegate = self
         
         //mapboxRoute()
-    }
-    
-    @IBAction func signOutPressed(_ sender: UIButton) {
-        let firebaseAuth = FIRAuth.auth()
-        do {
-            try firebaseAuth?.signOut()
-            print("YAY SIGNOUT")
-            self.performSegue(withIdentifier: "unwindToLogin", sender: self)
-        } catch let signOutError as NSError {
-            print("Error signing out: %@", signOutError)
-        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -141,6 +130,19 @@ class MapViewController: UIViewController {
         
     }
     
+}
+
+extension MapViewController: MenuViewDelegate {
+    func didClickOnLogout() {
+        let firebaseAuth = FIRAuth.auth()
+        do {
+            try firebaseAuth?.signOut()
+            print("YAY SIGNOUT")
+            self.performSegue(withIdentifier: "unwindToLogin", sender: self)
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+        }
+    }
 }
 
 extension MapViewController: MGLMapViewDelegate {
