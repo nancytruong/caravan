@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import FirebaseAuth
+import FirebaseDatabase
 
 class LoginViewController: UIViewController {
 
@@ -22,6 +23,7 @@ class LoginViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         passwordTextField.delegate = self
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
