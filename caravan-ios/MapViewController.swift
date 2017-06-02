@@ -46,6 +46,8 @@ class MapViewController: UIViewController {
             FIRAuth.auth()?.addStateDidChangeListener { auth, user in
                 if user == nil {
                     self.performSegue(withIdentifier: "showLogin", sender: self)
+                } else if (user != nil) {
+                    appDelegate.user = user
                 }
             }
             
