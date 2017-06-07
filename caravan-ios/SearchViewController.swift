@@ -19,6 +19,7 @@ class SearchViewController: UIViewController {
     var geocoder: Geocoder!
     var directions: Directions!
     var searchResults: [GeocodedPlacemark] = []
+    var retRoutes: [Route] = []
     
     var locationManager: CLLocationManager!
     var locValue: CLLocationCoordinate2D!
@@ -32,7 +33,9 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print("before target")
         searchText.addTarget(self, action: #selector(searchTextChanged(_:)), for: UIControlEvents.editingChanged)
+        print("added target")
         
         //mapboxGeocoder(queryText: "Cal Poly")
         //tableView.reloadData()
@@ -58,6 +61,7 @@ class SearchViewController: UIViewController {
         let _ = geocoder.geocode(options,
                          completionHandler: { placemarks, attribution, error in
                             if let unwrapped = placemarks {
+                                print("got new results");
                                 self.searchResults = unwrapped
                             } else {
                                 self.searchResults = []
@@ -97,7 +101,8 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         // Configure the cell...
-        if (indexPath.row < searchResults.capacity) {
+        print("want to change the cell")
+        if (indexPath.row < searchResults.count) {
             cell.textLabel?.text = searchResults[indexPath.row].qualifiedName
         } else {
             cell.textLabel?.text = ""
@@ -121,6 +126,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
         
         let options = RouteOptions(waypoints: waypoints, profileIdentifier: MBDirectionsProfileIdentifier.automobile)
         options.includesSteps = true
+        options.includesAlternativeRoutes = true;
         
         _ = directions.calculate(options) { (waypoints, routes, error) in
             guard error == nil else {
@@ -282,28 +288,51 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
                 if var dictFromJSON = decoded as? [String:Any] {
                     // use dictFromJSON
                     
-                    print("changing the coord in steps")
-                    print(((((dictFromJSON["legs"] as! NSArray)[0] as! [String: Any])["steps"] as! NSArray)[0] as! [String:Any])["coordinates"])
+                    //print("changing the coord in steps")
+                    //print(((((dictFromJSON["legs"] as! NSArray)[0] as! [String: Any])["steps"] as! NSArray)[0] as! [String:Any])["coordinates"])
                     
                     let newRoute : Route = Route.init(json: dictFromJSON, waypoints: waypoints! , profileIdentifier: MBDirectionsProfileIdentifier.automobile)
                     //print("COORDS")
                     //print(newRoute.coordinates ?? "nonee")
-                    let viewController = NavigationUI.routeViewController(for: newRoute, directions: self.directions)
-                    self.present(viewController, animated: true, completion: nil)
+                    //let viewController = NavigationUI.routeViewController(for: newRoute, directions: self.directions)
+                    //self.present(viewController, animated: true, completion: nil)
                 }
             } catch {
                 print(error.localizedDescription)
             }
             
-            
-            
-        
-            //let viewController = NavigationUI.routeViewController(for: (routes?[0])!, directions: self.directions)
-            //self.present(viewController, animated: true, completion: nil)
+            if ((routes?.count)! >= 2) {
+                self.retRoutes = routes!;
+                self.performSegue(withIdentifier: "showRouteSelection", sender: self)
+            } else {
+                let viewController = NavigationUI.routeViewController(for: (routes?[0])!, directions: self.directions)
+                self.present(viewController, animated: true, completion: nil)
+            }
         }
         
         //print(cell?.textLabel?.text)
         //print("search results: " + searchResults[indexPath.row].qualifiedName)
         //print(searchResults[indexPath.row].location.coordinate)
+    }
+    
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+        print("preparing for segue");
+        
+        if segue.identifier == "showRouteSelection" {
+            let controller = segue.destination as! RouteSelectionViewController
+            
+            controller.ref = ref
+            controller.appDelegate = appDelegate
+            controller.locationManager = locationManager
+            controller.directions = directions
+            controller.geocoder = geocoder
+            print("set the routes")
+            controller.routes = retRoutes
+        }
     }
 }

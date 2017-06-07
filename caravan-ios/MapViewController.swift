@@ -41,8 +41,16 @@ class MapViewController: UIViewController {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
         // check if valid user, if no go to login
-        if (appDelegate.user == nil){
-            self.performSegue(withIdentifier: "showLogin", sender: self)
+        if (appDelegate.user == nil) {
+            //persist user auth
+            FIRAuth.auth()?.addStateDidChangeListener { auth, user in
+                if user == nil {
+                    self.performSegue(withIdentifier: "showLogin", sender: self)
+                } else if (user != nil) {
+                    appDelegate.user = user
+                }
+            }
+            
         }
     }
     
