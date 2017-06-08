@@ -20,6 +20,7 @@ class SearchViewController: UIViewController {
     var directions: Directions!
     var searchResults: [GeocodedPlacemark] = []
     var retRoutes: [Route] = []
+    var retRoute: Route?
     
     var locationManager: CLLocationManager!
     var locValue: CLLocationCoordinate2D!
@@ -29,6 +30,8 @@ class SearchViewController: UIViewController {
     
     var ref: FIRDatabaseReference!
     var appDelegate: AppDelegate!
+    
+    var routeDict = Dictionary<String, Any>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -135,7 +138,6 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
             }
             
             //sending route object to firebase
-            var newDict = Dictionary<String, Any>()
             var stepsDict = [Dictionary<String, Any>]()
             var legsDict = [Dictionary<String, Any>]()
             var intersectionsDict = [Dictionary<String, Any>]()
@@ -150,6 +152,8 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
             var approachLanes: [String] = []
             
             if let route = routes?.first, let leg = route.legs.first {
+                
+                self.retRoute = route
 
                 for leg in route.legs {
                     legDict["distance"] = leg.distance
@@ -245,39 +249,39 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
                     
                 }
                 
-                newDict["duration"] = route.expectedTravelTime
-                newDict["distance"] = route.distance
-                newDict["profileIdentifier"] = route.profileIdentifier
+                self.routeDict["duration"] = route.expectedTravelTime
+                self.routeDict["distance"] = route.distance
+                self.routeDict["profileIdentifier"] = route.profileIdentifier
                 
                 var temp: [[CLLocationDegrees]] = []
                 for coord in route.coordinates! {
                     temp.append([coord.latitude, coord.longitude])
                 }
-                newDict["coordinates"] = temp
+                self.routeDict["coordinates"] = temp
                 
                 var coordinateArray: [[CLLocationDegrees]] = []
                 for coord in route.coordinates! {
                     coordinateArray.append([coord.latitude, coord.longitude])
                 }
-                newDict["geometry"] = ["type": "Point",
+                self.routeDict["geometry"] = ["type": "Point",
                                        "coordinates": coordinateArray]
                 
-                newDict["legs"] = legsDict
+                self.routeDict["legs"] = legsDict
                 
             }
             
         
-            let userId = self.appDelegate.user?.uid
-            self.ref.child("users").child(userId!).child("route").setValue(newDict)
+            //let userId = self.appDelegate.user?.uid
+            //self.ref.child("users").child(userId!).child("route").setValue(routeDict)
             
             
             
             
             //TESTING INITIALIZING ROUTES FROM INFO I HAVE
-            //first, convert route dict "newDict" to json
+            //first, convert route dict "routeDict" to json
             
             do {
-                let jsonData = try JSONSerialization.data(withJSONObject: newDict, options: .prettyPrinted)
+                let jsonData = try JSONSerialization.data(withJSONObject: self.routeDict, options: .prettyPrinted)
                 // here "jsonData" is the dictionary encoded in JSON data
                 
                 let decoded = try JSONSerialization.jsonObject(with: jsonData, options: [])
@@ -305,8 +309,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
                 self.retRoutes = routes!;
                 self.performSegue(withIdentifier: "showRouteSelection", sender: self)
             } else {
-                let viewController = NavigationUI.routeViewController(for: (routes?[0])!, directions: self.directions)
-                self.present(viewController, animated: true, completion: nil)
+                self.performSegue(withIdentifier: "showPreview", sender: self)
             }
         }
         
@@ -333,6 +336,18 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
             controller.geocoder = geocoder
             print("set the routes")
             controller.routes = retRoutes
+        }
+        
+        if segue.identifier == "showPreview" {
+            let controller = segue.destination as! PreviewViewController
+            
+            controller.ref = ref
+            controller.appDelegate = appDelegate
+            controller.locationManager = locationManager
+            controller.directions = directions
+            controller.geocoder = geocoder
+            controller.routeDict = routeDict
+            controller.route = retRoute
         }
     }
 }

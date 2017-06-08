@@ -197,6 +197,7 @@ extension MapViewController: MGLMapViewDelegate {
                 let viewController = NavigationUI.routeViewController(for: route, directions: self.directions)
                 self.present(viewController, animated: true, completion: nil)
                 
+                
                 /*
                 if route.coordinateCount > 0 {
                     // Convert the route’s coordinates into a polyline.

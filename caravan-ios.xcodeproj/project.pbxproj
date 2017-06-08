@@ -25,6 +25,9 @@
 		B9B91F011E39664800FBFEAD /* caravan_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B91F001E39664800FBFEAD /* caravan_iosTests.swift */; };
 		B9B91F0C1E39664800FBFEAD /* caravan_iosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B91F0B1E39664800FBFEAD /* caravan_iosUITests.swift */; };
 		E041C582877055996DE58AE2 /* Pods_caravan_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BADD37FE9B47130674ECC720 /* Pods_caravan_ios.framework */; };
+		E7D431B81EE8C31500915DC2 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D431B71EE8C31500915DC2 /* PreviewViewController.swift */; };
+		E7D431B91EE8C31500915DC2 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D431B71EE8C31500915DC2 /* PreviewViewController.swift */; };
+		E7D431BA1EE8C31500915DC2 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D431B71EE8C31500915DC2 /* PreviewViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,7 +59,7 @@
 		B4F3605FC2CEDC4564A409B5 /* Pods_caravan_iosUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_caravan_iosUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B92E18281E5D073700934506 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B93F00E01E396A6600ACFB48 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		B99777861E55228A0047149B /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		B99777861E55228A0047149B /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = SearchViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		B9B91EE81E39664800FBFEAD /* caravan-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "caravan-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9B91EEB1E39664800FBFEAD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B9B91EED1E39664800FBFEAD /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -72,6 +75,7 @@
 		B9B91F0D1E39664800FBFEAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BADD37FE9B47130674ECC720 /* Pods_caravan_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_caravan_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2FF9F453FFD5B69110977CA /* Pods-caravan-iosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-caravan-iosTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-caravan-iosTests/Pods-caravan-iosTests.release.xcconfig"; sourceTree = "<group>"; };
+		E7D431B71EE8C31500915DC2 /* PreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
 		F3221F18AF26FCBBBDFB9C14 /* Pods-caravan-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-caravan-ios.release.xcconfig"; path = "Pods/Target Support Files/Pods-caravan-ios/Pods-caravan-ios.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -195,6 +199,7 @@
 				B99777861E55228A0047149B /* SearchViewController.swift */,
 				B92E18281E5D073700934506 /* LoginViewController.swift */,
 				46E222211ED4F81A00D1C6F7 /* RouteSelectionViewController.swift */,
+				E7D431B71EE8C31500915DC2 /* PreviewViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -503,6 +508,7 @@
 				B99777871E55228A0047149B /* SearchViewController.swift in Sources */,
 				463A77241ECBCC7C004FE290 /* MenuViewDelegate.swift in Sources */,
 				B9B91EEC1E39664800FBFEAD /* AppDelegate.swift in Sources */,
+				E7D431B81EE8C31500915DC2 /* PreviewViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -511,6 +517,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B9B91F011E39664800FBFEAD /* caravan_iosTests.swift in Sources */,
+				E7D431B91EE8C31500915DC2 /* PreviewViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -519,6 +526,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B9B91F0C1E39664800FBFEAD /* caravan_iosUITests.swift in Sources */,
+				E7D431BA1EE8C31500915DC2 /* PreviewViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
