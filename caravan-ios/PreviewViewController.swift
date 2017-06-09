@@ -40,45 +40,34 @@ class PreviewViewController: UIViewController {
         
         //generate room number
         var roomIsSet = false
-        
-        //while (!roomIsSet) {
-            let num1 = String(arc4random_uniform(9))
-            let num2 = String(arc4random_uniform(9))
-            let num3 = String(arc4random_uniform(9))
-            let num4 = String(arc4random_uniform(9))
-            let tempRoom = String(num1) + String(num2) + String(num3) + String(num4)
-            print("checking temp room " + tempRoom)
-            //self.ref.child("rooms").child(tempRoom).child("users").setValue(userId!)
-        
-        
-            ref.child("rooms").observeSingleEvent(of: FIRDataEventType.value, with: { (snapshot) in
-                print("blah " + String(snapshot.hasChild(tempRoom)))
-                if (snapshot.hasChild(tempRoom) == false) {
+        var roomArr = [String]()
+    
+        ref.child("rooms").observeSingleEvent(of: FIRDataEventType.value, with: { (snapshot) in
+            let enumerator = snapshot.children
+            while let rest = enumerator.nextObject() as? FIRDataSnapshot {
+                roomArr.append(String(describing: rest.key))
+            }
+            while (!roomIsSet) {
+                let num1 = String(arc4random_uniform(9))
+                let num2 = String(arc4random_uniform(9))
+                let num3 = String(arc4random_uniform(9))
+                let num4 = String(arc4random_uniform(9))
+                let tempRoom = String(num1) + String(num2) + String(num3) + String(num4)
+                
+                if (!roomArr.contains(tempRoom)) {
                     self.room.text = tempRoom
                     roomIsSet = true
-                    self.ref.child("rooms").child(tempRoom).child("users").setValue(userId!)
-                    print("room is set to " + tempRoom)
+                
+                    let childUpdates = ["/rooms/\(tempRoom)/finish": [self.route.coordinates?.last?.latitude, self.route.coordinates?.last?.longitude],
+                                        "/rooms/\(tempRoom)/start": [self.route.coordinates?.first?.latitude, self.route.coordinates?.first?.longitude],
+                                        "/rooms/\(tempRoom)/users": userId!] as [String : Any]
+                    self.ref.updateChildValues(childUpdates)
                 }
-            }) { (error) in
-                print(error.localizedDescription)
             }
- 
-            /*
-            ref.child("rooms").orderByChild("ID").equalTo(tempRoom).on("value", function(snapshot) {
-                var userData = snapshot.val();
-                if (!userData){
-                    room.text = tempRoom
-                    roomIsSet = true
-                    self.ref.child("rooms").child(tempRoom).child("users").setValue(userId!)
-                    print("room is set to " + tempRoom)
-                }
-            })
-            */
-        //}
+        }) { (error) in
+            print(error.localizedDescription)
+        }
         
-        
-        
-        //self.ref.child("rooms").child(room.text!).child("route").setValue(routeDict)
         
         preview.setCenter(CLLocationCoordinate2D(latitude: (route.coordinates?.first?.latitude)!,
                                                  longitude: (route.coordinates?.first?.longitude)!),
