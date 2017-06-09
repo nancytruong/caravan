@@ -49,7 +49,8 @@ class PreviewViewController: UIViewController {
             let tempRoom = String(num1) + String(num2) + String(num3) + String(num4)
             print("checking temp room " + tempRoom)
             //self.ref.child("rooms").child(tempRoom).child("users").setValue(userId!)
-            
+        
+        
             ref.child("rooms").observeSingleEvent(of: FIRDataEventType.value, with: { (snapshot) in
                 print("blah " + String(snapshot.hasChild(tempRoom)))
                 if (snapshot.hasChild(tempRoom) == false) {
@@ -61,6 +62,7 @@ class PreviewViewController: UIViewController {
             }) { (error) in
                 print(error.localizedDescription)
             }
+ 
             /*
             ref.child("rooms").orderByChild("ID").equalTo(tempRoom).on("value", function(snapshot) {
                 var userData = snapshot.val();
