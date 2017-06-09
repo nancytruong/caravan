@@ -310,6 +310,11 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
                 self.performSegue(withIdentifier: "showRouteSelection", sender: self)
             } else {
                 self.performSegue(withIdentifier: "showPreview", sender: self)
+                //ref.observe(<#T##eventType: FIRDataEventType##FIRDataEventType#>, with: <#T##(FIRDataSnapshot) -> Void#>)
+                self.ref.observe(FIRDataEventType.value,
+                            with: {(snapshot) in
+                                print("hello")
+                            })
             }
         }
         

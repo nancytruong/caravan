@@ -237,8 +237,10 @@ extension MapViewController: CLLocationManagerDelegate {
         let userId = appDelegate.user?.uid
         
         print("sending long: \(locValue.longitude) lat: \(locValue.latitude)")
-        ref.child("users").child(userId!).child("coord/longitude").setValue(locValue.longitude)
-        ref.child("users").child(userId!).child("coord/latitude").setValue(locValue.latitude)
+        // TODO: the room # will need to be changed
+        ref.child("rooms").child("1621").child("users").child(userId!).setValue([locValue.latitude, locValue.longitude])
+        print("done!")
+        
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {

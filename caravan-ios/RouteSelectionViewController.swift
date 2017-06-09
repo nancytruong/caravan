@@ -65,8 +65,7 @@ class RouteSelectionViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let viewController = NavigationUI.routeViewController(for: (routes[indexPath.row]), directions: self.directions)
-        self.present(viewController, animated: true, completion: nil)
+        self.performSegue(withIdentifier: "showPreview", sender: self)
     }
 
     /*

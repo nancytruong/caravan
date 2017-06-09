@@ -91,12 +91,11 @@ class PreviewViewController: UIViewController {
             self.preview.addAnnotation(routeLine)
             self.preview.setVisibleCoordinates(&routeCoordinates, count: route.coordinateCount, edgePadding: .zero, animated: true)
         }
-        
-        
-        // DO THIS AFTER THIS CONTROLLER IS DONE:
-        //let viewController = NavigationUI.routeViewController(for: (routes?[0])!, directions: self.directions)
-        //self.present(viewController, animated: true, completion: nil)
-        
     }
     
+    @IBAction func startNav(_ sender: Any) {
+        // call the segue to start the navigation controller
+        let viewController = NavigationUI.routeViewController(for: route, directions: self.directions)
+        self.present(viewController, animated: true, completion: nil)
+    }
 }
