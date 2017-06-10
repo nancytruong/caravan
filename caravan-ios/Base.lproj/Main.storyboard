@@ -148,6 +148,14 @@
                                     <action selector="getLocationPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="NAo-M4-m5d"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bwf-Oy-bdu">
+                                <rect key="frame" x="93" y="213" width="201" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Join a Room"/>
+                                <connections>
+                                    <segue destination="OjR-6p-fxu" kind="show" identifier="showJoin" id="Os1-sy-zFN"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <userDefinedRuntimeAttributes>
@@ -252,6 +260,60 @@
             </objects>
             <point key="canvasLocation" x="1216.8" y="-35.532233883058474"/>
         </scene>
+        <!--Join View Controller-->
+        <scene sceneID="TlW-Rx-e71">
+            <objects>
+                <viewController id="OjR-6p-fxu" customClass="JoinViewController" customModule="caravan_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="SHe-PG-WHa"/>
+                        <viewControllerLayoutGuide type="bottom" id="gYP-MN-8RE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="gj8-L6-65g">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Enter a room number to join" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jzM-PF-sSA">
+                                <rect key="frame" x="80" y="72" width="215" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Fy9-A7-ruR">
+                                <rect key="frame" x="139" y="101" width="97" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jpg-0R-4Rw">
+                                <rect key="frame" x="164" y="139" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Done"/>
+                                <connections>
+                                    <action selector="done:" destination="OjR-6p-fxu" eventType="touchUpInside" id="XFh-yN-bH2"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s9s-I3-B2U">
+                                <rect key="frame" x="16" y="225" width="343" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="errorLabel" destination="s9s-I3-B2U" id="DW6-KD-4ie"/>
+                        <outlet property="roomInput" destination="Fy9-A7-ruR" id="FYj-Cn-i2l"/>
+                        <segue destination="WoP-oZ-CQO" kind="show" identifier="showDone" id="oHc-7U-UCW"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pDh-6W-OTn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="728.79999999999995" y="644.52773613193403"/>
+        </scene>
         <!--Preview View Controller-->
         <scene sceneID="7wb-oq-pCb">
             <objects>
@@ -314,5 +376,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="lRh-jc-af6"/>
+        <segue reference="oHc-7U-UCW"/>
     </inferredMetricsTieBreakers>
 </document>
