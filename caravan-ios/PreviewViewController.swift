@@ -122,35 +122,42 @@ class PreviewViewController: UIViewController {
                         return
                     }
                     if let tempRoute = routes?.first {
-                        let currRoute = tempRoute
+                        self.currRoute = tempRoute
+                    }
+                    
+                    self.preview.setCenter(CLLocationCoordinate2D(latitude: self.locVal.latitude, longitude: self.locVal.longitude), zoomLevel: 7, animated: false)
+                    
+                    if ((self.currRoute?.coordinateCount)! > 0) {
+                        // Convert the route’s coordinates into a polyline.
+                        var routeCoordinates = self.currRoute?.coordinates!
+                        let routeLine = MGLPolyline(coordinates: routeCoordinates!, count: (self.currRoute?.coordinateCount)!)
+                        
+                        // Add the polyline to the map and fit the viewport to the polyline.
+                        self.preview.addAnnotation(routeLine)
+                        self.preview.setVisibleCoordinates(routeCoordinates!, count: (self.currRoute?.coordinateCount)!, edgePadding: .zero, animated: true)
                     }
                 }
-                
-                
-                self.preview.setCenter(CLLocationCoordinate2D(latitude: self.locVal.latitude, longitude: self.locVal.longitude), zoomLevel: 7, animated: false)
-                //IDK HOW TO FIX THISSSSS
-                /*
-                if ((self.currRoute?.coordinateCount)! > 0) {
-                    // Convert the route’s coordinates into a polyline.
-                    var routeCoordinates = self.currRoute?.coordinates!
-                    let routeLine = MGLPolyline(coordinates: &routeCoordinates, count: self.currRoute?.coordinateCount)
-
-                    // Add the polyline to the map and fit the viewport to the polyline.
-                    self.preview.addAnnotation(routeLine)
-                    self.preview.setVisibleCoordinates(&routeCoordinates, count: self.currRoute?.coordinateCount, edgePadding: .zero, animated: true)
-                }
-                */
+                print("wheee")
                 
             }) { (error) in
                 print(error.localizedDescription)
             }
             
         }
+        
+        // DO THIS AFTER THIS CONTROLLER IS DONE:
+        //let viewController = NavigationUI.routeViewController(for: (routes?[0])!, directions: self.directions)
+        //self.present(viewController, animated: true, completion: nil)
     }
+ 
+        
+ 
     
     @IBAction func startNav(_ sender: Any) {
         // call the segue to start the navigation controller
-        let viewController = NavigationUI.routeViewController(for: route, directions: self.directions)
+        //TODO: check if currRoute is nill or not
+        let viewController = NavigationUI.routeViewController(for: self.currRoute!, directions: self.directions)
         self.present(viewController, animated: true, completion: nil)
     }
-}
+
+ }
