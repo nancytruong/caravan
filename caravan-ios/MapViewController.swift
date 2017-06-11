@@ -136,6 +136,15 @@ class MapViewController: UIViewController {
             controller.geocoder = geocoder
         }
         
+        if segue.identifier == "showJoin" {
+            let controller = segue.destination as! JoinViewController
+            
+            controller.ref = ref
+            controller.appDelegate = appDelegate
+            controller.locationManager = locationManager
+            controller.directions = directions
+            controller.geocoder = geocoder
+        }
     }
     
 }

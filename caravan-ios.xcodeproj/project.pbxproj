@@ -28,6 +28,11 @@
 		E7D431B81EE8C31500915DC2 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D431B71EE8C31500915DC2 /* PreviewViewController.swift */; };
 		E7D431B91EE8C31500915DC2 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D431B71EE8C31500915DC2 /* PreviewViewController.swift */; };
 		E7D431BA1EE8C31500915DC2 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D431B71EE8C31500915DC2 /* PreviewViewController.swift */; };
+		E7D431BC1EEB5EDD00915DC2 /* JoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D431BB1EEB5EDD00915DC2 /* JoinViewController.swift */; };
+		E7D431BD1EEB5EDD00915DC2 /* JoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D431BB1EEB5EDD00915DC2 /* JoinViewController.swift */; };
+		E7D431BE1EEB5EDD00915DC2 /* JoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D431BB1EEB5EDD00915DC2 /* JoinViewController.swift */; };
+		E7D431BF1EEBB53C00915DC2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B91EEB1E39664800FBFEAD /* AppDelegate.swift */; };
+		E7D431C01EEBB53D00915DC2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B91EEB1E39664800FBFEAD /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +81,7 @@
 		BADD37FE9B47130674ECC720 /* Pods_caravan_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_caravan_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2FF9F453FFD5B69110977CA /* Pods-caravan-iosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-caravan-iosTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-caravan-iosTests/Pods-caravan-iosTests.release.xcconfig"; sourceTree = "<group>"; };
 		E7D431B71EE8C31500915DC2 /* PreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
+		E7D431BB1EEB5EDD00915DC2 /* JoinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinViewController.swift; sourceTree = "<group>"; };
 		F3221F18AF26FCBBBDFB9C14 /* Pods-caravan-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-caravan-ios.release.xcconfig"; path = "Pods/Target Support Files/Pods-caravan-ios/Pods-caravan-ios.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -200,6 +206,7 @@
 				B92E18281E5D073700934506 /* LoginViewController.swift */,
 				46E222211ED4F81A00D1C6F7 /* RouteSelectionViewController.swift */,
 				E7D431B71EE8C31500915DC2 /* PreviewViewController.swift */,
+				E7D431BB1EEB5EDD00915DC2 /* JoinViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -505,6 +512,7 @@
 				46E222221ED4F81A00D1C6F7 /* RouteSelectionViewController.swift in Sources */,
 				463A771E1ECBCBEC004FE290 /* MenuView.swift in Sources */,
 				B9B91EEE1E39664800FBFEAD /* MapViewController.swift in Sources */,
+				E7D431BC1EEB5EDD00915DC2 /* JoinViewController.swift in Sources */,
 				B99777871E55228A0047149B /* SearchViewController.swift in Sources */,
 				463A77241ECBCC7C004FE290 /* MenuViewDelegate.swift in Sources */,
 				B9B91EEC1E39664800FBFEAD /* AppDelegate.swift in Sources */,
@@ -516,7 +524,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E7D431BF1EEBB53C00915DC2 /* AppDelegate.swift in Sources */,
 				B9B91F011E39664800FBFEAD /* caravan_iosTests.swift in Sources */,
+				E7D431BD1EEB5EDD00915DC2 /* JoinViewController.swift in Sources */,
 				E7D431B91EE8C31500915DC2 /* PreviewViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -525,7 +535,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E7D431C01EEBB53D00915DC2 /* AppDelegate.swift in Sources */,
 				B9B91F0C1E39664800FBFEAD /* caravan_iosUITests.swift in Sources */,
+				E7D431BE1EEB5EDD00915DC2 /* JoinViewController.swift in Sources */,
 				E7D431BA1EE8C31500915DC2 /* PreviewViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
