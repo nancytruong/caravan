@@ -31,12 +31,15 @@ class PreviewViewController: UIViewController {
     var appDelegate: AppDelegate!
     
     var routeDict = Dictionary<String, Any>()
-    var route: Route!
-    var currRoute: Route?
+    var route: Route?
     
     var roomInput: String = ""
     
     var locVal: CLLocationCoordinate2D!
+    
+    deinit {
+        self.ref.child("rooms").removeAllObservers()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,13 +50,15 @@ class PreviewViewController: UIViewController {
             //generate room number
             var roomIsSet = false
             var roomArr = [String]()
-        
-            ref.child("rooms").observeSingleEvent(of: FIRDataEventType.value, with: { (snapshot) in
+            print("heeellooossss")
+            //ref.child("rooms").observeSingleEvent(of: .value, with: { (snapshot) in print("whut?")})
+            ref.child("roomKeys").observeSingleEvent(of: FIRDataEventType.value, with: { (snapshot) in
                 let enumerator = snapshot.children
                 while let rest = enumerator.nextObject() as? FIRDataSnapshot {
                     roomArr.append(String(describing: rest.key))
                 }
                 while (!roomIsSet) {
+                    print("in the while")
                     let num1 = String(arc4random_uniform(9))
                     let num2 = String(arc4random_uniform(9))
                     let num3 = String(arc4random_uniform(9))
@@ -64,28 +69,29 @@ class PreviewViewController: UIViewController {
                         self.room.text = tempRoom
                         roomIsSet = true
                     
-                        let childUpdates = ["/rooms/\(tempRoom)/finish": [self.route.coordinates?.last?.latitude, self.route.coordinates?.last?.longitude],
-                                            "/rooms/\(tempRoom)/start": [self.route.coordinates?.first?.latitude, self.route.coordinates?.first?.longitude],
+                        let childUpdates = ["/rooms/\(tempRoom)/finish": [self.route!.coordinates?.last?.latitude, self.route!.coordinates?.last?.longitude],
+                                            "/users/\(userId!)/location": [self.route!.coordinates?.first?.latitude, self.route!.coordinates?.first?.longitude],
                                             "/rooms/\(tempRoom)/users": userId] as [String : Any]
+                        self.ref.child("roomKeys").childByAutoId().setValue(tempRoom);
                         self.ref.updateChildValues(childUpdates)
                     }
                 }
+                
+                self.preview.setCenter(CLLocationCoordinate2D(latitude: (self.route?.coordinates?.first?.latitude)!,
+                                                         longitude: (self.route?.coordinates?.first?.longitude)!),
+                                  zoomLevel: 7, animated: false)
+                
+                if self.route!.coordinateCount > 0 {
+                    // Convert the route’s coordinates into a polyline.
+                    var routeCoordinates = self.route!.coordinates!
+                    let routeLine = MGLPolyline(coordinates: &routeCoordinates, count: self.route!.coordinateCount)
+                    
+                    // Add the polyline to the map and fit the viewport to the polyline.
+                    self.preview.addAnnotation(routeLine)
+                    self.preview.setVisibleCoordinates(&routeCoordinates, count: self.route!.coordinateCount, edgePadding: .zero, animated: true)
+                }
             }) { (error) in
                 print(error.localizedDescription)
-            }
-            
-            preview.setCenter(CLLocationCoordinate2D(latitude: (route.coordinates?.first?.latitude)!,
-                                                     longitude: (route.coordinates?.first?.longitude)!),
-                              zoomLevel: 7, animated: false)
-            
-            if route.coordinateCount > 0 {
-                // Convert the route’s coordinates into a polyline.
-                var routeCoordinates = route.coordinates!
-                let routeLine = MGLPolyline(coordinates: &routeCoordinates, count: route.coordinateCount)
-                
-                // Add the polyline to the map and fit the viewport to the polyline.
-                self.preview.addAnnotation(routeLine)
-                self.preview.setVisibleCoordinates(&routeCoordinates, count: route.coordinateCount, edgePadding: .zero, animated: true)
             }
         }
         else {
@@ -100,7 +106,8 @@ class PreviewViewController: UIViewController {
                         temp.append(coord[i] as! CLLocationDegrees)
                     }
                 }
-                
+                print("here is temp")
+                print(temp)
                 let dest = CLLocationCoordinate2D(latitude: temp[0], longitude: temp[1])
                 
                 let waypoints = [
@@ -122,19 +129,19 @@ class PreviewViewController: UIViewController {
                         return
                     }
                     if let tempRoute = routes?.first {
-                        self.currRoute = tempRoute
+                        self.route = tempRoute
                     }
                     
                     self.preview.setCenter(CLLocationCoordinate2D(latitude: self.locVal.latitude, longitude: self.locVal.longitude), zoomLevel: 7, animated: false)
                     
-                    if ((self.currRoute?.coordinateCount)! > 0) {
+                    if ((self.route?.coordinateCount)! > 0) {
                         // Convert the route’s coordinates into a polyline.
-                        var routeCoordinates = self.currRoute?.coordinates!
-                        let routeLine = MGLPolyline(coordinates: routeCoordinates!, count: (self.currRoute?.coordinateCount)!)
+                        var routeCoordinates = self.route?.coordinates!
+                        let routeLine = MGLPolyline(coordinates: routeCoordinates!, count: (self.route?.coordinateCount)!)
                         
                         // Add the polyline to the map and fit the viewport to the polyline.
                         self.preview.addAnnotation(routeLine)
-                        self.preview.setVisibleCoordinates(routeCoordinates!, count: (self.currRoute?.coordinateCount)!, edgePadding: .zero, animated: true)
+                        self.preview.setVisibleCoordinates(routeCoordinates!, count: (self.route?.coordinateCount)!, edgePadding: .zero, animated: true)
                     }
                 }
                 print("wheee")
@@ -144,20 +151,42 @@ class PreviewViewController: UIViewController {
             }
             
         }
-        
+        print("afterrrrr")
         // DO THIS AFTER THIS CONTROLLER IS DONE:
         //let viewController = NavigationUI.routeViewController(for: (routes?[0])!, directions: self.directions)
         //self.present(viewController, animated: true, completion: nil)
     }
- 
-        
- 
     
     @IBAction func startNav(_ sender: Any) {
         // call the segue to start the navigation controller
         //TODO: check if currRoute is nill or not
-        let viewController = NavigationUI.routeViewController(for: self.currRoute!, directions: self.directions)
+        let viewController = NavigationUI.routeViewController(for: self.route!, directions: self.directions)
         self.present(viewController, animated: true, completion: nil)
     }
 
+    @IBAction func testButton(_ sender: Any) {
+        let userId = appDelegate.user?.uid
+        
+        print("sending long: \(locValue.longitude) lat: \(locValue.latitude)")
+        // TODO: the room # will need to be changed
+        ref.child("rooms").child("3382").child("users").child(userId!).setValue([locValue.latitude, locValue.longitude])
+        print("done!")
+    }
+    
+    @IBAction func getLocation(_ sender: Any) {
+        let userId = "BbQD2VoTHrQ4XszHJswrnZ3MeMk1" //change this hard code later
+        
+        ref.child("rooms").observeSingleEvent(of: .value, with: { (snapshot) in
+            // Get user value
+            let valueArr = snapshot.value as? NSDictionary
+            print("waows")
+            //let longitude = value?["longitude"] as? Float ?? 0.0
+            //let latitude = value?["latitude"] as? Float ?? 0.0
+            //print("FROM DB: long", valueArr![0], "& lat", valueArr![1])
+            
+        }) { (error) in
+            print(error.localizedDescription)
+        }
+    }
+    
  }

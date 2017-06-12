@@ -36,6 +36,10 @@ class MapViewController: UIViewController {
     
     var panGR : UIPanGestureRecognizer?
     
+    deinit {
+        self.ref.child("rooms").removeAllObservers()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -134,6 +138,7 @@ class MapViewController: UIViewController {
             controller.locationManager = locationManager
             controller.directions = directions
             controller.geocoder = geocoder
+            controller.locValue = self.locValue
         }
         
         if segue.identifier == "showJoin" {
@@ -247,7 +252,7 @@ extension MapViewController: CLLocationManagerDelegate {
         
         print("sending long: \(locValue.longitude) lat: \(locValue.latitude)")
         // TODO: the room # will need to be changed
-        ref.child("rooms").child("1621").child("users").child(userId!).setValue([locValue.latitude, locValue.longitude])
+        ref.child("rooms").child("3382").child("users").child(userId!).setValue([locValue.latitude, locValue.longitude])
         print("done!")
         
     }

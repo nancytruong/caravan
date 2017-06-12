@@ -29,6 +29,10 @@ class JoinViewController: UIViewController, UITextFieldDelegate {
     
     var locationManager: CLLocationManager!
     
+    deinit {
+        self.ref.child("rooms").removeAllObservers()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -54,18 +58,19 @@ class JoinViewController: UIViewController, UITextFieldDelegate {
         
         var roomArr = [String]()
         
-        ref.child("rooms").observeSingleEvent(of: FIRDataEventType.value, with: { (snapshot) in
+        ref.child("roomKeys").observeSingleEvent(of: FIRDataEventType.value, with: { (snapshot) in
             let enumerator = snapshot.children
             while let rest = enumerator.nextObject() as? FIRDataSnapshot {
-                roomArr.append(String(describing: rest.key))
+                roomArr.append(String(describing: rest.value!))
             }
             if (roomArr.contains(self.roomInput.text!)) {
                 let locValue:CLLocationCoordinate2D = self.locationManager.location!.coordinate
 
                 let userId = self.appDelegate.user?.uid
-                self.ref.child("rooms").child(self.roomInput.text!).child("users").child(userId!).setValue(
+                self.ref.child("users").child(userId!).child("location").setValue(
                 [locValue.latitude,
                 locValue.longitude])
+                self.ref.child("rooms").child(self.roomInput.text!).child("users").childByAutoId().setValue(userId!) //overwrites :(
  
                 self.performSegue(withIdentifier: "showDone", sender: self)
             }

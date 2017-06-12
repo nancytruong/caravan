@@ -341,6 +341,22 @@
                                     <action selector="startNav:" destination="WoP-oZ-CQO" eventType="touchUpInside" id="gKP-8k-IDb"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mra-Jd-kBy">
+                                <rect key="frame" x="47" y="152" width="178" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Send Location to Firebase"/>
+                                <connections>
+                                    <action selector="testButton:" destination="WoP-oZ-CQO" eventType="touchUpInside" id="cu8-Yn-NOy"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mOe-Eu-b4c">
+                                <rect key="frame" x="83" y="230" width="88" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Get Location"/>
+                                <connections>
+                                    <action selector="getLocation:" destination="WoP-oZ-CQO" eventType="touchUpInside" id="fbn-Me-9hy"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -376,6 +392,9 @@
                             <outlet property="delegate" destination="shQ-4v-mKc" id="2Jz-Pu-bgK"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="WoP-oZ-CQO" kind="show" identifier="showPreview" id="Bq0-oT-zha"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zo2-v4-c4l" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -384,6 +403,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="lRh-jc-af6"/>
-        <segue reference="oHc-7U-UCW"/>
+        <segue reference="Bq0-oT-zha"/>
     </inferredMetricsTieBreakers>
 </document>

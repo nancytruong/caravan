@@ -33,6 +33,10 @@ class SearchViewController: UIViewController {
     
     var routeDict = Dictionary<String, Any>()
     
+    deinit {
+        self.ref.child("rooms").removeAllObservers()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -339,6 +343,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
             controller.locationManager = locationManager
             controller.directions = directions
             controller.geocoder = geocoder
+            controller.locValue = self.locValue
             print("set the routes")
             controller.routes = retRoutes
         }

@@ -22,10 +22,15 @@ class RouteSelectionViewController: UITableViewController {
     var locationManager: CLLocationManager!
     var locValue: CLLocationCoordinate2D!
     
-    var ref: FIRDatabaseReference!
+    var ref: FIRDatabaseReference?
     var appDelegate: AppDelegate!
     
     var routes: [Route]!
+    var selectedRoute: Route?
+    
+    deinit {
+        self.ref?.child("rooms").removeAllObservers()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,17 +70,29 @@ class RouteSelectionViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.selectedRoute = routes[indexPath.row]
         self.performSegue(withIdentifier: "showPreview", sender: self)
     }
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "showPreview" {
+            let controller = segue.destination as! PreviewViewController
+            
+            controller.ref = ref
+            controller.appDelegate = appDelegate
+            controller.locationManager = locationManager
+            controller.directions = directions
+            controller.geocoder = geocoder
+            controller.locValue = locValue
+            controller.route = selectedRoute
+        }
     }
-    */
+    
 
 }
