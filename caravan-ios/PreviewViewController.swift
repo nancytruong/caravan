@@ -162,6 +162,9 @@ class PreviewViewController: UIViewController {
         //TODO: check if currRoute is nill or not
         let viewController = NavigationUI.routeViewController(for: self.route!, directions: self.directions)
         self.present(viewController, animated: true, completion: nil)
+        // do an observe single event to get all users in room
+        // attach an observe thingy to each user coord
+        // in the callback for the second observe call, update the annotations
     }
 
     @IBAction func testButton(_ sender: Any) {
