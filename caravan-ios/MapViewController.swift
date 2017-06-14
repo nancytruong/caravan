@@ -36,6 +36,12 @@ class MapViewController: UIViewController {
     
     var panGR : UIPanGestureRecognizer?
     
+    var pointAnnotations = [UserLocAnnotation] ()
+    
+    deinit {
+        self.ref.child("rooms").removeAllObservers()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -106,12 +112,12 @@ class MapViewController: UIViewController {
     }
     
     @IBAction func getLocationPressed(_ sender: Any) {
-        
+        mapView.removeAnnotations(pointAnnotations)
         //let userId = appDelegate.user?.uid
         // Renee: BbQD2VoTHrQ4XszHJswrnZ3MeMk1
         // Nancy: BKGE9xrtP5V6QwWYirRF3Rxpkdv2
         let userId = "BbQD2VoTHrQ4XszHJswrnZ3MeMk1" //change this hard code later
-        
+        /*
         ref.child("users").child(userId).child("coord").observeSingleEvent(of: .value, with: { (snapshot) in
             // Get user value
             let value = snapshot.value as? NSDictionary
@@ -121,7 +127,7 @@ class MapViewController: UIViewController {
             
         }) { (error) in
             print(error.localizedDescription)
-        }
+        }*/
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -134,8 +140,18 @@ class MapViewController: UIViewController {
             controller.locationManager = locationManager
             controller.directions = directions
             controller.geocoder = geocoder
+            controller.locValue = self.locValue
         }
         
+        if segue.identifier == "showJoin" {
+            let controller = segue.destination as! JoinViewController
+            
+            controller.ref = ref
+            controller.appDelegate = appDelegate
+            controller.locationManager = locationManager
+            controller.directions = directions
+            controller.geocoder = geocoder
+        }
     }
     
 }
@@ -154,6 +170,25 @@ extension MapViewController: MenuViewDelegate {
 }
 
 extension MapViewController: MGLMapViewDelegate {
+    
+    func mapView(_ mapView: MGLMapView, imageFor annotation: MGLAnnotation) -> MGLAnnotationImage? {
+        if let point = annotation as? UserLocAnnotation,
+            
+            let image = point.image,
+            let reuseIdentifier = point.reuseIdentifier {
+            
+            if let annotationImage = mapView.dequeueReusableAnnotationImage(withIdentifier: reuseIdentifier) {
+                // The annotatation image has already been cached, just reuse it.
+                return annotationImage
+            } else {
+                // Create a new annotation image.
+                return MGLAnnotationImage(image: image, reuseIdentifier: reuseIdentifier)
+            }
+        }
+        
+        // Fallback to the default marker image.
+        return nil
+    }
     
     // get a route object and also draw the route on the map
     func mapboxRoute() {
@@ -197,6 +232,7 @@ extension MapViewController: MGLMapViewDelegate {
                 let viewController = NavigationUI.routeViewController(for: route, directions: self.directions)
                 self.present(viewController, animated: true, completion: nil)
                 
+                
                 /*
                 if route.coordinateCount > 0 {
                     // Convert the route’s coordinates into a polyline.
@@ -211,6 +247,19 @@ extension MapViewController: MGLMapViewDelegate {
                 
             }
         }
+    }
+    
+    func testMultAnnotations() {
+        let coords = [CLLocationCoordinate2D(latitude: 35.301355, longitude: -120.660459),
+                      CLLocationCoordinate2D(latitude: 35.302355, longitude: -120.670459),
+                      CLLocationCoordinate2D(latitude: 35.300355, longitude: -120.680459),]
+        for coordinate in coords {
+            let point = UserLocAnnotation(coordinate: coordinate)
+            point.title = "\(coordinate.latitude), \(coordinate.longitude)"
+            pointAnnotations.append(point)
+        }
+        
+        mapView.addAnnotations(pointAnnotations)
     }
     
     func annotation() {
@@ -230,18 +279,26 @@ extension MapViewController: MGLMapViewDelegate {
 extension MapViewController: CLLocationManagerDelegate {
     
     @IBAction func sendLocationPressed(_ sender: Any) {
-        //let username = "Spud"
-        //ref.child("users/1/username").setValue(username)
+        testMultAnnotations();
         
         let userId = appDelegate.user?.uid
         
         print("sending long: \(locValue.longitude) lat: \(locValue.latitude)")
-        ref.child("users").child(userId!).child("coord/longitude").setValue(locValue.longitude)
-        ref.child("users").child(userId!).child("coord/latitude").setValue(locValue.latitude)
+        // TODO: the room # will need to be changed
+        ref.child("rooms").child("3382").child("users").child(userId!).setValue([locValue.latitude, locValue.longitude])
+        print("done!")
+        
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         locValue = (manager.location?.coordinate)!
+        
+        if (appDelegate.user != nil) {
+            let uid = appDelegate.user?.uid
+            let coords = manager.location?.coordinate
+            let arr = [coords?.latitude, coords?.longitude]
+            ref.child("users").child(uid!).child("location").setValue(arr)
+        }
     }
 }
 
