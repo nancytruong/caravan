@@ -209,7 +209,9 @@ class PreviewViewController: UIViewController {
         if (Array(userAnnotations.keys).contains(user)) {
             // update
             print("updating a point with user:", user)
+            map.removeAnnotation(userAnnotations[user]!)
             userAnnotations[user]!.coordinate = userCoords[user]!
+            map.addAnnotation(userAnnotations[user]!)
         } else {
             // create & add to map
             print("creating a point with user:", user)
