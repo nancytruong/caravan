@@ -47,6 +47,11 @@ class PreviewViewController: UIViewController {
         let userId = self.appDelegate.user?.uid
 
         if (roomInput.isEmpty) {
+            let point = MGLPointAnnotation()
+            point.coordinate = (route?.coordinates?.last)!
+            point.title = "Destination"
+            preview.addAnnotation(point)
+            
             //generate room number
             var roomIsSet = false
             var roomArr = [String]()
@@ -110,6 +115,11 @@ class PreviewViewController: UIViewController {
                 print(temp)
                 let dest = CLLocationCoordinate2D(latitude: temp[0], longitude: temp[1])
                 
+                let point = MGLPointAnnotation()
+                point.coordinate = dest
+                point.title = "Destination"
+                self.preview.addAnnotation(point)
+                
                 let waypoints = [
                     Waypoint(
                         coordinate: self.locVal,
@@ -160,6 +170,8 @@ class PreviewViewController: UIViewController {
     @IBAction func startNav(_ sender: Any) {
         // call the segue to start the navigation controller
         //TODO: check if currRoute is nill or not
+        //NotificationCenter.default.addObserver(self, selector: #selector(willReroute(_:)), name: RouteControllerWillReroute, object: navigation)
+        
         let viewController = NavigationUI.routeViewController(for: self.route!, directions: self.directions)
         self.present(viewController, animated: true, completion: nil)
         // TODO: chck if room.text is valid room # before calling this
