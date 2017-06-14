@@ -44,6 +44,11 @@ class PreviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let point = MGLPointAnnotation()
+        point.coordinate = (route?.coordinates?.last)!
+        point.title = "Destination"
+        preview.addAnnotation(point)
+        
         let userId = self.appDelegate.user?.uid
 
         if (roomInput.isEmpty) {
@@ -160,13 +165,32 @@ class PreviewViewController: UIViewController {
     @IBAction func startNav(_ sender: Any) {
         // call the segue to start the navigation controller
         //TODO: check if currRoute is nill or not
+        //NotificationCenter.default.addObserver(self, selector: #selector(willReroute(_:)), name: RouteControllerWillReroute, object: navigation)
+        
         let viewController = NavigationUI.routeViewController(for: self.route!, directions: self.directions)
         self.present(viewController, animated: true, completion: nil)
         // do an observe single event to get all users in room
         // attach an observe thingy to each user coord
         // in the callback for the second observe call, update the annotations
     }
-
+    /*
+    func willReroute(_ notification: NSNotification) {
+        //
+        // If you're using MapboxNavigation,
+        // this is how you'd handle fetching a new route and setting it as the active route
+        /*
+         getRoute {
+         /*
+         **IMPORTANT**
+         
+         When rerouting, you need to give the RouteController a new route.
+         Otherwise, it will continue to compare the user to the old route and continually reroute the user.
+         */
+         self.navigation?.routeProgress = RouteProgress(route: self.userRoute!)
+         }
+         */
+    }
+*/
     @IBAction func testButton(_ sender: Any) {
         let userId = appDelegate.user?.uid
         
