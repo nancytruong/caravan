@@ -162,10 +162,44 @@ class PreviewViewController: UIViewController {
         //TODO: check if currRoute is nill or not
         let viewController = NavigationUI.routeViewController(for: self.route!, directions: self.directions)
         self.present(viewController, animated: true, completion: nil)
+        // TODO: chck if room.text is valid room # before calling this
+        ref.child("rooms").child(room.text!).child("users").observeSingleEvent(of: .value,
+                                                                              with:
+            { (snapshot) in
+                var map = viewController.mapView
+                var tempDict = snapshot.value as? NSDictionary
+                var roomUsers = Set(tempDict!.allValues as! [String])
+                dump(roomUsers)
+                //testMultAnnotations(Array(roomUsers))
+                // add all the locations of the users?
+                var userCoords = NSDictionary()
+                for user in roomUsers {
+                    self.ref.child("users").child(user).child("location").observe(FIRDataEventType.value,
+                        with: {(snapshot) in
+                            print("location updated!")
+                            userCoords.setValue(CLLocationCoordinate2D(latitude: 0, longitude: 0), forKey: user)
+                        })
+                }
+                dump(userCoords)
+                print("woootttt")
+            })
         // do an observe single event to get all users in room
         // attach an observe thingy to each user coord
         // in the callback for the second observe call, update the annotations
     }
+    /*
+    func testMultAnnotations(coords: [CLLocationCoordinate2D]) {
+        let coords = [CLLocationCoordinate2D(latitude: 35.301355, longitude: -120.660459),
+                      CLLocationCoordinate2D(latitude: 35.302355, longitude: -120.670459),
+                      CLLocationCoordinate2D(latitude: 35.300355, longitude: -120.680459),]
+        for coordinate in coords {
+            let point = UserLocAnnotation(coordinate: coordinate)
+            point.title = "\(coordinate.latitude), \(coordinate.longitude)"
+            pointAnnotations.append(point)
+        }
+        
+        mapView.addAnnotations(pointAnnotations)
+    }*/
 
     @IBAction func testButton(_ sender: Any) {
         let userId = appDelegate.user?.uid

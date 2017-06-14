@@ -43,7 +43,7 @@ class UserLocAnnotation: NSObject, MGLAnnotation {
         UIGraphicsBeginImageContextWithOptions(rect.size, false, UIScreen.main.scale)
         
         let ovalPath = UIBezierPath(ovalIn: rect.insetBy(dx: strokeWidth, dy: strokeWidth))
-        UIColor.lightGray.setFill()
+        UIColor.darkGray.setFill()
         ovalPath.fill()
         
         UIColor.white.setStroke()
