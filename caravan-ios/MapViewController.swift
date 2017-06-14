@@ -292,6 +292,13 @@ extension MapViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         locValue = (manager.location?.coordinate)!
+        
+        if (appDelegate.user != nil) {
+            let uid = appDelegate.user?.uid
+            let coords = manager.location?.coordinate
+            let arr = [coords?.latitude, coords?.longitude]
+            ref.child("users").child(uid!).child("location").setValue(arr)
+        }
     }
 }
 
