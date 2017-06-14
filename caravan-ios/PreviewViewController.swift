@@ -44,14 +44,14 @@ class PreviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let point = MGLPointAnnotation()
-        point.coordinate = (route?.coordinates?.last)!
-        point.title = "Destination"
-        preview.addAnnotation(point)
-        
         let userId = self.appDelegate.user?.uid
 
         if (roomInput.isEmpty) {
+            let point = MGLPointAnnotation()
+            point.coordinate = (route?.coordinates?.last)!
+            point.title = "Destination"
+            preview.addAnnotation(point)
+            
             //generate room number
             var roomIsSet = false
             var roomArr = [String]()
@@ -114,6 +114,11 @@ class PreviewViewController: UIViewController {
                 print("here is temp")
                 print(temp)
                 let dest = CLLocationCoordinate2D(latitude: temp[0], longitude: temp[1])
+                
+                let point = MGLPointAnnotation()
+                point.coordinate = dest
+                point.title = "Destination"
+                self.preview.addAnnotation(point)
                 
                 let waypoints = [
                     Waypoint(
