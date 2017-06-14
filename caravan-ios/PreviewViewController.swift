@@ -36,10 +36,7 @@ class PreviewViewController: UIViewController {
     var roomInput: String = ""
     
     var locVal: CLLocationCoordinate2D!
-    
-    deinit {
-        self.ref.child("rooms").removeAllObservers()
-    }
+    var userAnnotations: Dictionary<String, UserLocAnnotation> = Dictionary<String, UserLocAnnotation>()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -175,21 +172,25 @@ class PreviewViewController: UIViewController {
         let viewController = NavigationUI.routeViewController(for: self.route!, directions: self.directions)
         self.present(viewController, animated: true, completion: nil)
         // TODO: chck if room.text is valid room # before calling this
+        
         ref.child("rooms").child(room.text!).child("users").observeSingleEvent(of: .value,
                                                                               with:
             { (snapshot) in
-                var map = viewController.mapView
-                var tempDict = snapshot.value as? NSDictionary
-                var roomUsers = Set(tempDict!.allValues as! [String])
+                let map = viewController.mapView
+                let tempDict = snapshot.value as? NSDictionary
+                let roomUsers = Set(tempDict!.allValues as! [String])
                 dump(roomUsers)
                 //testMultAnnotations(Array(roomUsers))
                 // add all the locations of the users?
-                var userCoords = NSDictionary()
+                var userCoords = Dictionary<String, CLLocationCoordinate2D>()
                 for user in roomUsers {
                     self.ref.child("users").child(user).child("location").observe(FIRDataEventType.value,
                         with: {(snapshot) in
-                            print("location updated!")
-                            userCoords.setValue(CLLocationCoordinate2D(latitude: 0, longitude: 0), forKey: user)
+                            let value = snapshot.value as! NSArray
+                            print("location updated! lat: ", value[0] as! Double, "longitude: ", value[1] as! Double)
+                            userCoords[user] = CLLocationCoordinate2D(latitude: value[0] as! Double, longitude: value[1] as! Double)
+                            // update the annotations here
+                            self.updateUserAnnotations(userCoords: userCoords, user: user, map: map!)
                         })
                 }
                 dump(userCoords)
@@ -199,20 +200,44 @@ class PreviewViewController: UIViewController {
         // attach an observe thingy to each user coord
         // in the callback for the second observe call, update the annotations
     }
-    /*
-    func testMultAnnotations(coords: [CLLocationCoordinate2D]) {
-        let coords = [CLLocationCoordinate2D(latitude: 35.301355, longitude: -120.660459),
-                      CLLocationCoordinate2D(latitude: 35.302355, longitude: -120.670459),
-                      CLLocationCoordinate2D(latitude: 35.300355, longitude: -120.680459),]
-        for coordinate in coords {
-            let point = UserLocAnnotation(coordinate: coordinate)
-            point.title = "\(coordinate.latitude), \(coordinate.longitude)"
-            pointAnnotations.append(point)
-        }
+    
+    func updateUserAnnotations(userCoords: Dictionary<String, CLLocationCoordinate2D>, user: String, map: MGLMapView) {
+        // check if the user exists in userCoords
+        // make & add a new annotation if dne
+        // update the coord if it does exist
         
-        mapView.addAnnotations(pointAnnotations)
-    }*/
+        if (Array(userAnnotations.keys).contains(user)) {
+            // update
+            print("updating a point with user:", user)
+            userAnnotations[user]!.coordinate = userCoords[user]!
+        } else {
+            // create & add to map
+            print("creating a point with user:", user)
+            let point = UserLocAnnotation(coordinate: userCoords[user]!)
+            point.title = user
+            userAnnotations[user] = point
+            // add to map
+            map.addAnnotation(point)
+        }
+    }
 
+    func willReroute(_ notification: NSNotification) {
+        //
+        // If you're using MapboxNavigation,
+        // this is how you'd handle fetching a new route and setting it as the active route
+        /*
+         getRoute {
+         /*
+         **IMPORTANT**
+         
+         When rerouting, you need to give the RouteController a new route.
+         Otherwise, it will continue to compare the user to the old route and continually reroute the user.
+         */
+         self.navigation?.routeProgress = RouteProgress(route: self.userRoute!)
+         }
+         */
+    }
+    
     @IBAction func testButton(_ sender: Any) {
         let userId = appDelegate.user?.uid
         
@@ -225,9 +250,9 @@ class PreviewViewController: UIViewController {
     @IBAction func getLocation(_ sender: Any) {
         let userId = "BbQD2VoTHrQ4XszHJswrnZ3MeMk1" //change this hard code later
         
-        ref.child("rooms").observeSingleEvent(of: .value, with: { (snapshot) in
+        ref.child("users").child(userId).child("location").observeSingleEvent(of: .value, with: { (snapshot) in
             // Get user value
-            let valueArr = snapshot.value as? NSDictionary
+            let valueArr = snapshot.value as? NSArray
             print("waows")
             //let longitude = value?["longitude"] as? Float ?? 0.0
             //let latitude = value?["latitude"] as? Float ?? 0.0

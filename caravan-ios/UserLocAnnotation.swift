@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 import Mapbox
+import MapboxDirections
+import MapboxNavigation
 
 // MGLAnnotation protocol reimplementation
 class UserLocAnnotation: NSObject, MGLAnnotation {
